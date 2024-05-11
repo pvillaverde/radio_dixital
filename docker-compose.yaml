@@ -1,0 +1,14 @@
+version: "3"
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    environment:
+      - TZ=Europe/Madrid    
+    volumes:
+      - ./docker/mosquitto/config:/mosquitto/config
+      - ./docker/mosquitto/data:/mosquitto/data
+    ports:
+      - 1883:1883
+      - 9001:9001
+    restart: unless-stopped
