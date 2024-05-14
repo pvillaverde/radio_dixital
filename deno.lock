@@ -2,12 +2,25 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@std/assert@^0.225.1": "jsr:@std/assert@0.225.1",
+      "jsr:@std/cli": "jsr:@std/cli@0.224.1",
       "npm:discord-webhook-node": "npm:discord-webhook-node@1.1.8",
       "npm:mqtt": "npm:mqtt@5.5.5",
       "npm:mysql2": "npm:mysql2@3.9.7",
       "npm:pino": "npm:pino@9.0.0",
       "npm:simple-discord-webhooks": "npm:simple-discord-webhooks@2.1.0",
       "npm:tslog": "npm:tslog@4.9.2"
+    },
+    "jsr": {
+      "@std/assert@0.225.1": {
+        "integrity": "7342fa32a6d82c2c7c98ffea566baa9a892d04b22815b9fcf62cedeee5764f9c"
+      },
+      "@std/cli@0.224.1": {
+        "integrity": "f631d47fc9802541399d00a1f77ac62ac709e7465b6bc52547caa358c486b36e",
+        "dependencies": [
+          "jsr:@std/assert@^0.225.1"
+        ]
+      }
     },
     "npm": {
       "@babel/runtime@7.24.5": {

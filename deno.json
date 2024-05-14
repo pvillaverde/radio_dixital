@@ -2,5 +2,19 @@
    "tasks": {
       "dev": "deno run --watch main.ts",
       "main": "deno run --allow-write --allow-read --allow-env --allow-net src/main.ts"
+   },
+   "fmt": {
+      "options": {
+         "useTabs": false,
+         "lineWidth": 120,
+         "indentWidth": 3,
+         "singleQuote": false,
+         "proseWrap": "preserve"
+      },
+      "files": {
+         "exclude": [
+            "./_site"
+         ]
+      }
    }
 }
