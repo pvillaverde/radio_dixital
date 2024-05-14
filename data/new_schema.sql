@@ -26,7 +26,7 @@ CREATE TABLE youtube(
    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 DROP TRIGGER youtube_create;
 CREATE TRIGGER youtube_create
@@ -53,7 +53,7 @@ CREATE TABLE podcast(
    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 DROP TRIGGER podcast_create;
 CREATE TRIGGER podcast_create
@@ -80,7 +80,7 @@ CREATE TABLE blog(
    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 DROP TRIGGER blog_create;
 CREATE TRIGGER blog_create
@@ -102,8 +102,8 @@ CREATE TABLE entry(
    id integer NOT NULL AUTO_INCREMENT,
    type varchar(255) NOT NULL,
    date timestamp NOT NULL,
-   title varchar(255) NOT NULL,
-   link varchar(255) NOT NULL,
+   title varchar(500) NOT NULL,
+   link varchar(500) NOT NULL,
    youtube_id varchar(255),
    podcast_id varchar(255),
    blog_id varchar(255),
@@ -111,8 +111,7 @@ CREATE TABLE entry(
    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id)
-);
-
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 DROP TRIGGER entry_create;
 CREATE TRIGGER entry_create
    BEFORE INSERT ON `entry`
