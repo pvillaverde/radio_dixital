@@ -1,5 +1,5 @@
 export default interface EntryData {
-   type: 'youtube' | 'podcast' | 'blog'
+   type: "youtube" | "podcast" | "blog";
    date: Date;
    title: string;
    link: string;

@@ -5,7 +5,7 @@ import { fetchJsonData, getFeedData } from "../services/utils.service.ts";
 import { PodcastData } from "../types/api.ts";
 
 export default async function refreshPodcasts() {
-   const API_URL = "https://obradoirodixitalgalego.gal/api/podcast.json"
+   const API_URL = "https://obradoirodixitalgalego.gal/api/podcast.json";
    const podcasts: PodcastData[] = await fetchJsonData(API_URL);
    logger.info(`Refrescando ${podcasts.length} podcasts dende a API.`);
    for (const [index, item] of podcasts.entries()) {
@@ -17,28 +17,29 @@ export default async function refreshPodcasts() {
          // deno-lint-ignore no-explicit-any
          let entries: any[] = [];
          if (Array.isArray(feedData.entry)) {
+            // deno-lint-ignore no-explicit-any
             entries = feedData.entry.map((i: any) => {
                return {
                   type: "podcast",
                   date: new Date(i.pubDate),
                   title: i.title,
                   link: i.link || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
-                  podcast_id: item.id
-               }
-            })
+                  podcast_id: item.id,
+               };
+            });
          } else if (feedData.entry) {
             entries = [{
                type: "podcast",
                date: new Date(feedData.entry.pubDate),
                title: feedData.entry.title,
                link: feedData.entry.link || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
-               podcast_id: item.id
-            }]
+               podcast_id: item.id,
+            }];
          }
          for (const entry of entries) {
             try {
                const databaseEntry = await entryRepository.retrieveByLink(entry.link);
-               logger.debug(`Episodio xa publicado: ${databaseEntry.title}: ${databaseEntry.link}`)
+               logger.debug(`Episodio xa publicado: ${databaseEntry.title}: ${databaseEntry.link}`);
                if (!databaseEntry) throw undefined;
             } catch (_error) {
                logger.info(`Novo episodio de ${item.title}: ${entry.title} - ${entry.link}`);

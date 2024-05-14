@@ -4,7 +4,7 @@ services:
     image: eclipse-mosquitto:latest
     container_name: mosquitto
     environment:
-      - TZ=Europe/Madrid    
+      - TZ=Europe/Madrid
     volumes:
       - ./docker/mosquitto/config:/mosquitto/config
       - ./docker/mosquitto/data:/mosquitto/data

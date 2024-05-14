@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { parse } from "https://deno.land/x/xml@4.0.0/mod.ts";
 import logger from "./logger.service.ts";
 
@@ -19,7 +20,7 @@ export async function getFeedData(rssURL: string, feedType: "rss" | "youtube"): 
          throw json;
       }
    } catch (error) {
-      logger.warn(`No valid RSS feed for ${rssURL}`)
+      logger.warn(`No valid RSS feed for ${rssURL}`);
       logger.warn(error);
       return undefined;
    }

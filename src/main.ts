@@ -13,20 +13,20 @@ logger.info(`
 ------------------------------------------------------------------------------------------
 `);
 switch (task) {
-   case 'refreshBlogs':
+   case "refreshBlogs":
       await refreshBlogs();
       connection.end();
       break;
-   case 'refreshPodcasts':
+   case "refreshPodcasts":
       await refreshPodcasts();
       connection.end();
       break;
-   case 'refreshYoutube':
+   case "refreshYoutube":
       await refreshYoutube();
       connection.end();
       break;
    default:
-      logger.fatal("Especifica unha subtarefa para executar a RADIO Dixital.")
+      logger.fatal("Especifica unha subtarefa para executar a RADIO Dixital.");
       connection.end();
       break;
 }

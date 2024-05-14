@@ -4,11 +4,10 @@ import { PodcastData } from "../../types/api.ts";
 import connection from "../index.ts";
 import IPodcast from "../models/podcast.model.ts";
 
-
 interface IPodcastRepository {
    save(podcast: PodcastData): Promise<IPodcast>;
    update(podcast: PodcastData): Promise<IPodcast>;
-   retrieveAll(searchParams: { title: string, published: boolean }): Promise<IPodcast[]>;
+   retrieveAll(searchParams: { title: string; published: boolean }): Promise<IPodcast[]>;
    retrieveById(id: string): Promise<IPodcast | undefined>;
 }
 
@@ -31,7 +30,7 @@ class PodcastRepository implements IPodcastRepository {
                      .then((b) => resolve(b))
                      .catch(reject);
                }
-            }
+            },
          );
       });
    }
@@ -48,22 +47,25 @@ class PodcastRepository implements IPodcastRepository {
                      .then((b) => resolve(b))
                      .catch(reject);
                }
-            }
+            },
          );
       });
    }
-   retrieveAll(searchParams: { title?: string, published?: boolean }): Promise<IPodcast[]> {
+   retrieveAll(searchParams: { title?: string; published?: boolean }): Promise<IPodcast[]> {
       let query: string = "SELECT * FROM podcast";
       let condition: string = "";
 
-      if (searchParams?.published)
-         condition += "published = TRUE"
+      if (searchParams?.published) {
+         condition += "published = TRUE";
+      }
 
-      if (searchParams?.title)
-         condition += `LOWER(title) LIKE '%${searchParams.title}%'`
+      if (searchParams?.title) {
+         condition += `LOWER(title) LIKE '%${searchParams.title}%'`;
+      }
 
-      if (condition.length)
+      if (condition.length) {
          query += " WHERE " + condition;
+      }
 
       return new Promise((resolve, reject) => {
          connection.query(query, (err: any, res: IPodcast[] | PromiseLike<IPodcast[]>) => {
@@ -79,11 +81,11 @@ class PodcastRepository implements IPodcastRepository {
             "SELECT * FROM podcast WHERE id = ?",
             [id],
             (err: any, res: IPodcast[] | PromiseLike<IPodcast>[]) => {
-               if (err) reject(err)
-               else resolve(res[0])
-            }
-         )
-      })
+               if (err) reject(err);
+               else resolve(res[0]);
+            },
+         );
+      });
    }
 }
 

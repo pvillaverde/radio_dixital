@@ -134,4 +134,3 @@ ALTER TABLE entry
 
 ALTER TABLE entry
    ADD CONSTRAINT fk_entry_blog FOREIGN KEY (blog_id) REFERENCES blog(id);
-

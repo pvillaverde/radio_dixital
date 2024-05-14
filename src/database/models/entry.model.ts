@@ -1,8 +1,8 @@
-import { RowDataPacket } from "npm:mysql2"
+import { RowDataPacket } from "npm:mysql2";
 
 export default interface IEntry extends RowDataPacket {
    id: number;
-   type: 'youtube' | 'podcast' | 'blog'
+   type: "youtube" | "podcast" | "blog";
    date: Date;
    title: string;
    link: string;

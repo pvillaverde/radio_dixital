@@ -4,11 +4,10 @@ import { BlogData } from "../../types/api.ts";
 import connection from "../index.ts";
 import IBlog from "../models/blog.model.ts";
 
-
 interface IBlogRepository {
    save(blog: BlogData): Promise<IBlog>;
    update(blog: BlogData): Promise<IBlog>;
-   retrieveAll(searchParams: { title: string, published: boolean }): Promise<IBlog[]>;
+   retrieveAll(searchParams: { title: string; published: boolean }): Promise<IBlog[]>;
    retrieveById(id: string): Promise<IBlog | undefined>;
 }
 
@@ -31,7 +30,7 @@ class BlogRepository implements IBlogRepository {
                      .then((b) => resolve(b))
                      .catch(reject);
                }
-            }
+            },
          );
       });
    }
@@ -48,22 +47,25 @@ class BlogRepository implements IBlogRepository {
                      .then((b) => resolve(b))
                      .catch(reject);
                }
-            }
+            },
          );
       });
    }
-   retrieveAll(searchParams: { title?: string, published?: boolean }): Promise<IBlog[]> {
+   retrieveAll(searchParams: { title?: string; published?: boolean }): Promise<IBlog[]> {
       let query: string = "SELECT * FROM blog";
       let condition: string = "";
 
-      if (searchParams?.published)
-         condition += "published = TRUE"
+      if (searchParams?.published) {
+         condition += "published = TRUE";
+      }
 
-      if (searchParams?.title)
-         condition += `LOWER(title) LIKE '%${searchParams.title}%'`
+      if (searchParams?.title) {
+         condition += `LOWER(title) LIKE '%${searchParams.title}%'`;
+      }
 
-      if (condition.length)
+      if (condition.length) {
          query += " WHERE " + condition;
+      }
 
       return new Promise((resolve, reject) => {
          connection.query(query, (err: any, res: IBlog[] | PromiseLike<IBlog[]>) => {
@@ -79,11 +81,11 @@ class BlogRepository implements IBlogRepository {
             "SELECT * FROM blog WHERE id = ?",
             [id],
             (err: any, res: IBlog[] | PromiseLike<IBlog>[]) => {
-               if (err) reject(err)
-               else resolve(res[0])
-            }
-         )
-      })
+               if (err) reject(err);
+               else resolve(res[0]);
+            },
+         );
+      });
    }
 }
 

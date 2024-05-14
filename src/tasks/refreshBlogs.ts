@@ -5,7 +5,7 @@ import { fetchJsonData, getFeedData } from "../services/utils.service.ts";
 import { BlogData } from "../types/api.ts";
 
 export default async function refreshBlogs() {
-   const API_URL = "https://obradoirodixitalgalego.gal/api/blogomillo.json"
+   const API_URL = "https://obradoirodixitalgalego.gal/api/blogomillo.json";
    const blogs: BlogData[] = await fetchJsonData(API_URL);
    logger.info(`Refrescando ${blogs.length} blogues dende a API.`);
    for (const [index, item] of blogs.entries()) {
@@ -17,28 +17,29 @@ export default async function refreshBlogs() {
          // deno-lint-ignore no-explicit-any
          let entries: any[] = [];
          if (Array.isArray(feedData.entry)) {
+            // deno-lint-ignore no-explicit-any
             entries = feedData.entry.map((i: any) => {
                return {
                   type: "blog",
                   date: new Date(i.pubDate),
                   title: i.title,
                   link: i.link || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
-                  blog_id: item.id
-               }
-            })
+                  blog_id: item.id,
+               };
+            });
          } else if (feedData.entry) {
             entries = [{
                type: "blog",
                date: new Date(feedData.entry.pubDate),
                title: feedData.entry.title,
                link: feedData.entry.link || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
-               blog_id: item.id
-            }]
+               blog_id: item.id,
+            }];
          }
          for (const entry of entries) {
             try {
                const databaseEntry = await entryRepository.retrieveByLink(entry.link);
-               logger.debug(`Entrada xa publicada: ${databaseEntry.title}: ${databaseEntry.link}`)
+               logger.debug(`Entrada xa publicada: ${databaseEntry.title}: ${databaseEntry.link}`);
                if (!databaseEntry) throw undefined;
             } catch (_error) {
                logger.info(`Nova entrada de ${item.title}: ${entry.title} - ${entry.link}`);

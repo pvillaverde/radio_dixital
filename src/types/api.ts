@@ -6,22 +6,21 @@ export interface BaseApiData {
 }
 
 export interface YoutubeData extends BaseApiData {
-   type: 'youtube';
+   type: "youtube";
    uuid: string;
 }
 
 export interface PodcastData extends BaseApiData {
-   type: 'podcast';
+   type: "podcast";
    rss: string;
 }
 
 export interface BlogData extends BaseApiData {
-   type: 'blog';
+   type: "blog";
    rss: string;
 }
 
 export interface TwitchData extends BaseApiData {
-   type: 'twitch';
+   type: "twitch";
    twitch_login: string;
 }
-

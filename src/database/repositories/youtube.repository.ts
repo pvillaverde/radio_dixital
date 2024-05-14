@@ -4,11 +4,10 @@ import { YoutubeData } from "../../types/api.ts";
 import connection from "../index.ts";
 import IYoutube from "../models/youtube.model.ts";
 
-
 interface IYoutubeRepository {
    save(youtube: YoutubeData): Promise<IYoutube>;
    update(youtube: YoutubeData): Promise<IYoutube>;
-   retrieveAll(searchParams: { title: string, published: boolean }): Promise<IYoutube[]>;
+   retrieveAll(searchParams: { title: string; published: boolean }): Promise<IYoutube[]>;
    retrieveById(id: string): Promise<IYoutube | undefined>;
 }
 
@@ -31,7 +30,7 @@ class YoutubeRepository implements IYoutubeRepository {
                      .then((b) => resolve(b))
                      .catch(reject);
                }
-            }
+            },
          );
       });
    }
@@ -48,22 +47,25 @@ class YoutubeRepository implements IYoutubeRepository {
                      .then((b) => resolve(b))
                      .catch(reject);
                }
-            }
+            },
          );
       });
    }
-   retrieveAll(searchParams: { title?: string, published?: boolean }): Promise<IYoutube[]> {
+   retrieveAll(searchParams: { title?: string; published?: boolean }): Promise<IYoutube[]> {
       let query: string = "SELECT * FROM youtube";
       let condition: string = "";
 
-      if (searchParams?.published)
-         condition += "published = TRUE"
+      if (searchParams?.published) {
+         condition += "published = TRUE";
+      }
 
-      if (searchParams?.title)
-         condition += `LOWER(title) LIKE '%${searchParams.title}%'`
+      if (searchParams?.title) {
+         condition += `LOWER(title) LIKE '%${searchParams.title}%'`;
+      }
 
-      if (condition.length)
+      if (condition.length) {
          query += " WHERE " + condition;
+      }
 
       return new Promise((resolve, reject) => {
          connection.query(query, (err: any, res: IYoutube[] | PromiseLike<IYoutube[]>) => {
@@ -79,11 +81,11 @@ class YoutubeRepository implements IYoutubeRepository {
             "SELECT * FROM youtube WHERE id = ?",
             [id],
             (err: any, res: IYoutube[] | PromiseLike<IYoutube>[]) => {
-               if (err) reject(err)
-               else resolve(res[0])
-            }
-         )
-      })
+               if (err) reject(err);
+               else resolve(res[0]);
+            },
+         );
+      });
    }
 }
 

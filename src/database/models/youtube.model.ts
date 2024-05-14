@@ -1,4 +1,4 @@
-import { RowDataPacket } from "npm:mysql2"
+import { RowDataPacket } from "npm:mysql2";
 
 export default interface IYoutube extends RowDataPacket {
    id: string;
@@ -9,5 +9,3 @@ export default interface IYoutube extends RowDataPacket {
    created_at?: Date;
    updated_at?: Date;
 }
-
-

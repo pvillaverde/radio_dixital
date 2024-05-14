@@ -5,5 +5,5 @@ export default mysql.createConnection({
    host: dbConfig.DB_HOST,
    user: dbConfig.DB_USER,
    password: dbConfig.DB_PASS,
-   database: dbConfig.DB_NAME
+   database: dbConfig.DB_NAME,
 });

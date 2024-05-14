@@ -1,2 +1,6 @@
 import { Logger } from "npm:tslog";
-export default new Logger({ type: "pretty" });
+import LogLevel from "../types/logLevel.ts";
+export default new Logger({
+   minLevel: LogLevel.Info,
+   type: "pretty",
+});

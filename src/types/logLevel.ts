@@ -5,6 +5,6 @@ enum LogLevel {
    Info,
    Warn,
    Error,
-   Fatal
+   Fatal,
 }
-export default LogLevel
+export default LogLevel;
