@@ -15,15 +15,26 @@ export default async function refreshBlogs() {
          // Obtemos a información do RSS
          const feedData = await getFeedData(item.rss, "rss");
          // deno-lint-ignore no-explicit-any
-         const entries = feedData.item.map((i: any) => {
-            return {
+         let entries: any[] = [];
+         if (Array.isArray(feedData.entry)) {
+            entries = feedData.entry.map((i: any) => {
+               return {
+                  type: "blog",
+                  date: new Date(i.pubDate),
+                  title: i.title,
+                  link: i.link || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
+                  blog_id: item.id
+               }
+            })
+         } else if (feedData.entry) {
+            entries = [{
                type: "blog",
-               date: new Date(i.pubDate),
-               title: i.title,
-               link: i.link,
+               date: new Date(feedData.entry.pubDate),
+               title: feedData.entry.title,
+               link: feedData.entry.link || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
                blog_id: item.id
-            }
-         })
+            }]
+         }
          for (const entry of entries) {
             try {
                const databaseEntry = await entryRepository.retrieveByLink(entry.link);
