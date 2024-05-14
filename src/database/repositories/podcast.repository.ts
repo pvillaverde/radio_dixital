@@ -1,33 +1,33 @@
 // deno-lint-ignore-file no-explicit-any
 import logger from "../../services/logger.service.ts";
-import { BlogData } from "../../types/api.ts";
+import { PodcastData } from "../../types/api.ts";
 import connection from "../index.ts";
-import IBlog from "../models/blog.model.ts";
+import IPodcast from "../models/podcast.model.ts";
 
 
-interface IBlogRepository {
-   save(blog: BlogData): Promise<IBlog>;
-   update(blog: BlogData): Promise<IBlog>;
-   retrieveAll(searchParams: { title: string, published: boolean }): Promise<IBlog[]>;
-   retrieveById(id: string): Promise<IBlog | undefined>;
+interface IPodcastRepository {
+   save(podcast: PodcastData): Promise<IPodcast>;
+   update(podcast: PodcastData): Promise<IPodcast>;
+   retrieveAll(searchParams: { title: string, published: boolean }): Promise<IPodcast[]>;
+   retrieveById(id: string): Promise<IPodcast | undefined>;
 }
 
-class BlogRepository implements IBlogRepository {
-   save(blog: BlogData): Promise<IBlog> {
+class PodcastRepository implements IPodcastRepository {
+   save(podcast: PodcastData): Promise<IPodcast> {
       return new Promise((resolve, reject) => {
          connection.query(
-            "INSERT INTO blog (id ,rss, title, published) VALUES(?,?,?,?)",
-            [blog.id, blog.rss, blog.title, new Date()],
-            (err: any, _res: IBlog | PromiseLike<IBlog>) => {
+            "INSERT INTO podcast (id ,rss, title, published) VALUES(?,?,?,?)",
+            [podcast.id, podcast.rss, podcast.title, new Date()],
+            (err: any, _res: IPodcast | PromiseLike<IPodcast>) => {
                if (err && err.code == "ER_DUP_ENTRY") {
-                  this.update(blog)
+                  this.update(podcast)
                      .then((b) => resolve(b))
                      .catch(reject);
                } else if (err) {
                   logger.error(err);
                   reject(err);
                } else {
-                  this.retrieveById(blog.id)
+                  this.retrieveById(podcast.id)
                      .then((b) => resolve(b))
                      .catch(reject);
                }
@@ -35,16 +35,16 @@ class BlogRepository implements IBlogRepository {
          );
       });
    }
-   update(blog: BlogData): Promise<IBlog> {
+   update(podcast: PodcastData): Promise<IPodcast> {
       return new Promise((resolve, reject) => {
          connection.query(
-            "UPDATE blog SET rss=?, title=? WHERE id=?",
-            [blog.rss, blog.title, blog.id],
-            (err: any, _res: IBlog | PromiseLike<IBlog>) => {
+            "UPDATE podcast SET rss=?, title=? WHERE id=?",
+            [podcast.rss, podcast.title, podcast.id],
+            (err: any, _res: IPodcast | PromiseLike<IPodcast>) => {
                if (err) {
                   reject(err);
                } else {
-                  this.retrieveById(blog.id)
+                  this.retrieveById(podcast.id)
                      .then((b) => resolve(b))
                      .catch(reject);
                }
@@ -52,8 +52,8 @@ class BlogRepository implements IBlogRepository {
          );
       });
    }
-   retrieveAll(searchParams: { title?: string, published?: boolean }): Promise<IBlog[]> {
-      let query: string = "SELECT * FROM blog";
+   retrieveAll(searchParams: { title?: string, published?: boolean }): Promise<IPodcast[]> {
+      let query: string = "SELECT * FROM podcast";
       let condition: string = "";
 
       if (searchParams?.published)
@@ -66,19 +66,19 @@ class BlogRepository implements IBlogRepository {
          query += " WHERE " + condition;
 
       return new Promise((resolve, reject) => {
-         connection.query(query, (err: any, res: IBlog[] | PromiseLike<IBlog[]>) => {
+         connection.query(query, (err: any, res: IPodcast[] | PromiseLike<IPodcast[]>) => {
             if (err) reject(err);
             else resolve(res);
          });
       });
    }
 
-   retrieveById(id: string): Promise<IBlog> {
+   retrieveById(id: string): Promise<IPodcast> {
       return new Promise((resolve, reject) => {
          connection.query(
-            "SELECT * FROM blog WHERE id = ?",
+            "SELECT * FROM podcast WHERE id = ?",
             [id],
-            (err: any, res: IBlog[] | PromiseLike<IBlog>[]) => {
+            (err: any, res: IPodcast[] | PromiseLike<IPodcast>[]) => {
                if (err) reject(err)
                else resolve(res[0])
             }
@@ -87,4 +87,4 @@ class BlogRepository implements IBlogRepository {
    }
 }
 
-export default new BlogRepository();
+export default new PodcastRepository();

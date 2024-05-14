@@ -9,9 +9,6 @@ interface IEntryRepository {
    retrieveAll(searchParams: { title: string, published: boolean }): Promise<IEntry[]>;
    retrieveById(id: number): Promise<IEntry | undefined>;
    retrieveByLink(link: string): Promise<IEntry | undefined>;
-   // update(blog: Blog): Promise<number>;
-   // delete(blogId: number): Promise<number>;
-   // deleteAll(): Promise<number>;
 }
 
 class EntryRepository implements IEntryRepository {
@@ -76,12 +73,6 @@ class EntryRepository implements IEntryRepository {
          )
       })
    }
-
-   // update(tutorial: Tutorial): Promise<number> { }
-
-   // delete(tutorialId: number): Promise<number> { }
-
-   // deleteAll(): Promise<number> { }
 }
 
 export default new EntryRepository();
