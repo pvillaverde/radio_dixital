@@ -2,6 +2,7 @@ import refreshBlogs from "./tasks/refreshBlogs.ts";
 import logger from "./services/logger.service.ts";
 import connection from "./database/index.ts";
 import refreshPodcasts from "./tasks/refreshPodcasts.ts";
+import refreshYoutube from "./tasks/refreshYoutube.ts";
 const task = Deno.args[0];
 
 logger.info(`
@@ -18,6 +19,10 @@ switch (task) {
       break;
    case 'refreshPodcasts':
       await refreshPodcasts();
+      connection.end();
+      break;
+   case 'refreshYoutube':
+      await refreshYoutube();
       connection.end();
       break;
    default:

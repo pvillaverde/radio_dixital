@@ -19,7 +19,7 @@ DROP TABLE entry;
 /* Youtube Channels */
 CREATE TABLE youtube(
    id varchar(255) NOT NULL,
-   rss varchar(255) NOT NULL,
+   uuid varchar(255) NOT NULL UNIQUE,
    title varchar(255) NOT NULL,
    published timestamp,
    /* Auto updated with trigger */

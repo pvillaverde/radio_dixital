@@ -7,7 +7,7 @@ export interface BaseApiData {
 
 export interface YoutubeData extends BaseApiData {
    type: 'youtube';
-   youtube_uuid: string;
+   uuid: string;
 }
 
 export interface PodcastData extends BaseApiData {
