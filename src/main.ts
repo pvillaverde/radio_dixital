@@ -3,6 +3,11 @@ import logger from "./services/logger.service.ts";
 import connection from "./database/index.ts";
 import refreshPodcasts from "./tasks/refreshPodcasts.ts";
 import refreshYoutube from "./tasks/refreshYoutube.ts";
+import mqttService from "./services/mqtt.service.ts";
+import publishDiscord from "./tasks/publishDiscord.ts";
+import publishMastodon from "./tasks/publishMastodon.ts";
+import publishTwitter from "./tasks/publishTwitter.ts";
+
 const task = Deno.args[0];
 
 logger.info(`
@@ -12,23 +17,36 @@ logger.info(`
 |                                Obradoiro Dixital Galego                                |
 ------------------------------------------------------------------------------------------
 `);
+let keepRuning = false;
 switch (task) {
    case "refreshBlogs":
       await refreshBlogs();
-      connection.end();
       break;
    case "refreshPodcasts":
       await refreshPodcasts();
-      connection.end();
       break;
    case "refreshYoutube":
       await refreshYoutube();
-      connection.end();
+      break;
+   case "publishTwitter":
+      keepRuning = true;
+      await publishTwitter();
+      break;
+   case "publishMastodon":
+      keepRuning = true;
+      await publishMastodon();
+      break;
+   case "publishDiscord":
+      keepRuning = true;
+      await publishDiscord();
       break;
    default:
       logger.fatal("Especifica unha subtarefa para executar a RADIO Dixital.");
-      connection.end();
       break;
+}
+if (!keepRuning) {
+   connection.end();
+   mqttService.end();
 }
 
 // const food = Deno.args[1];
