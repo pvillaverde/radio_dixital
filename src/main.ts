@@ -3,13 +3,13 @@ import logger from "./services/logger.service.ts";
 import connection from "./database/index.ts";
 import refreshPodcasts from "./tasks/refreshPodcasts.ts";
 import refreshYoutube from "./tasks/refreshYoutube.ts";
+import refreshYoutubeStats from "./tasks/refreshYoutubeStats.ts";
 import mqttService from "./services/mqtt.service.ts";
 import publishDiscord from "./tasks/publishDiscord.ts";
 import publishMastodon from "./tasks/publishMastodon.ts";
 import publishTwitter from "./tasks/publishTwitter.ts";
 
 const task = Deno.args[0];
-
 logger.info(`
 ------------------------------------------------------------------------------------------
 |              Rede Automatizada de Difusión Integral do Obradoiro Dixital               |
@@ -28,6 +28,9 @@ switch (task) {
       break;
    case "refreshYoutube":
       await refreshYoutube();
+      break;
+   case "refreshYoutubeStats":
+      await refreshYoutubeStats();
       break;
    // Service Tasks
    case "publishTwitter":

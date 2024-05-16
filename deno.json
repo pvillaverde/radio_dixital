@@ -1,7 +1,19 @@
 {
    "tasks": {
-      "dev": "deno run --watch main.ts",
-      "main": "deno run --allow-write --allow-read --allow-env --allow-net src/main.ts"
+      "dev": "deno run --watch src/main.ts",
+      "main": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts",
+      "refreshBlogs": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshBlogs",
+      "refreshPodcasts": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshPodcasts",
+      "refreshTwitter": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitter",
+      "refreshYoutube": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshYoutube",
+      "refreshYoutubeStats": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshYoutubeStats",
+      "refreshTwitch": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitch",
+      "refreshTwitchGames": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchGames",
+      "refreshTwitchClips": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchClips",
+      "refreshTwitchStreams": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchStreams",
+      "publishDiscord": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts publishDiscord",
+      "publishTwitter": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts publishTwitter",
+      "publishMastodon": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts publishMastodon"
    },
    "fmt": {
       "options": {

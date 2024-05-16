@@ -1,11 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import logger from "../../services/logger.service.ts";
 import { YoutubeData } from "../../types/api.ts";
+import YoutubeStat from "../../types/youtubeStats.ts";
 import connection from "../index.ts";
 import IYoutube from "../models/youtube.model.ts";
 
 interface IYoutubeRepository {
    save(youtube: YoutubeData): Promise<IYoutube>;
+   saveStats(stat: YoutubeStat): Promise<void>;
    update(youtube: YoutubeData): Promise<IYoutube>;
    retrieveAll(searchParams: { title: string; published: boolean }): Promise<IYoutube[]>;
    retrieveById(id: string): Promise<IYoutube | undefined>;
@@ -29,6 +31,22 @@ class YoutubeRepository implements IYoutubeRepository {
                   this.retrieveById(youtube.id)
                      .then((b) => resolve(b))
                      .catch(reject);
+               }
+            },
+         );
+      });
+   }
+   saveStats(stat: YoutubeStat): Promise<void> {
+      return new Promise((resolve, reject) => {
+         connection.query(
+            "INSERT INTO youtube_stats (hidden_subscriber_count,view_count,subscriber_count,video_count,channel_uuid,youtube_id) VALUES(?,?,?,?,?,?)",
+            [stat.hidden_subscriber_count, stat.view_count, stat.subscriber_count, stat.video_count, stat.channel_uuid, stat.youtube_id],
+            (err: any, _res: IYoutube | PromiseLike<IYoutube>) => {
+               if (err) {
+                  logger.error(err);
+                  reject(err);
+               } else {
+                  resolve();
                }
             },
          );

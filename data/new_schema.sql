@@ -7,6 +7,9 @@ ALTER TABLE entry
 ALTER TABLE entry
    DROP CONSTRAINT fk_entry_blog;
 
+ALTER TABLE youtube_stats
+   DROP CONSTRAINT fk_youtube_stats_youtube;
+
 DROP TABLE youtube;
 
 DROP TABLE podcast;
@@ -14,6 +17,8 @@ DROP TABLE podcast;
 DROP TABLE blog;
 
 DROP TABLE entry;
+
+DROP TABLE youtube_stats;
 
 
 /* Youtube Channels */
@@ -42,6 +47,33 @@ CREATE TRIGGER youtube_update
    SET NEW.updated_at = NOW(),
    NEW.created_at = OLD.created_at;
 
+CREATE TABLE youtube_stats(
+   id integer NOT NULL AUTO_INCREMENT,
+   hidden_subscriber_count boolean,
+   view_count integer,
+   subscriber_count integer,
+   video_count integer,
+   channel_uuid varchar(255) NOT NULL,
+   youtube_id varchar(255) NOT NULL,
+   /* Auto updated with trigger */
+   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+
+DROP TRIGGER youtube_stats_create;
+CREATE TRIGGER youtube_stats_create
+   BEFORE INSERT ON `youtube`
+   FOR EACH ROW
+   SET NEW.created_at = NOW(),
+   NEW.updated_at = NOW();
+
+DROP TRIGGER youtube_stats_update;
+CREATE TRIGGER youtube_stats_update
+   BEFORE UPDATE ON `youtube`
+   FOR EACH ROW
+   SET NEW.updated_at = NOW(),
+   NEW.created_at = OLD.created_at;
 
 /* Podcasts */
 CREATE TABLE podcast(
@@ -128,6 +160,9 @@ CREATE TRIGGER entry_update
 
 ALTER TABLE entry
    ADD CONSTRAINT fk_entry_youtube FOREIGN KEY (youtube_id) REFERENCES youtube(id);
+
+ALTER TABLE entry
+   ADD CONSTRAINT fk_youtube_stats_youtube FOREIGN KEY (youtube_id) REFERENCES youtube(id);
 
 ALTER TABLE entry
    ADD CONSTRAINT fk_entry_podcast FOREIGN KEY (podcast_id) REFERENCES podcast(id);
