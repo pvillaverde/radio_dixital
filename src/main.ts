@@ -48,6 +48,10 @@ switch (task) {
 }
 
 if (!keepRuning) {
-   connection.end();
-   mqttService.end();
+   try {
+      connection.end();
+      mqttService.end();
+   } catch (_error) {
+      Deno.exit(0);
+   }
 }
