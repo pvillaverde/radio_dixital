@@ -1,0 +1,6 @@
+export default {
+   MQTT_HOST: "MQTT_HOST",
+   MQTT_USER: "MQTT_USER",
+   MQTT_PASS: "MQTT_PASS",
+   MQTT_TOPIC: "MQTT_TOPIC",
+};
