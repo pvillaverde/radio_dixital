@@ -61,10 +61,10 @@ export default async function refreshYoutube() {
                      twitter: item.twitter,
                      entryTitle: entry.title,
                      entryLink: entry.link,
-                  }
+                  };
                   logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
                   mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message));
-               })
+               });
             }
          }
          logger.info(

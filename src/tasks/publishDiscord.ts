@@ -12,11 +12,11 @@ export default function publishDiscord() {
          if (err) {
             logger.error(err.toString());
          } else {
-            logger.info("Listening MQTT Topic")
+            logger.info("Listening MQTT Topic");
          }
       });
-   })
-   mqttService.on("message", async (topic, message) => {
+   });
+   mqttService.on("message", async (_topic, message) => {
       try {
          const decodedMessage: PubSubMessage = JSON.parse(message.toString());
          logger.debug(decodedMessage);
@@ -25,7 +25,7 @@ export default function publishDiscord() {
             .replace(/{channelName}/g, decodedMessage.title)
             .replace(/{mentionUser}/g, ``)
             .replace(/{title}/g, decodedMessage.entryTitle)
-            .replace(/{url}/g, decodedMessage.entryLink)
+            .replace(/{url}/g, decodedMessage.entryLink);
 
          const webhook = new Webhook(discordConfig[decodedMessage.type].webhook);
          const result = await webhook.send(messageStatus);
@@ -34,10 +34,7 @@ export default function publishDiscord() {
          logger.error(error);
          logger.error(message.toString());
       }
-   })
-
-
-
+   });
 
    // // const hook = new Webhook("YOUR WEBHOOK URL");
 

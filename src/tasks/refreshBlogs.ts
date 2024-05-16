@@ -57,10 +57,10 @@ export default async function refreshBlogs() {
                      twitter: item.twitter,
                      entryTitle: entry.title,
                      entryLink: entry.link,
-                  }
+                  };
                   logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
                   mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message));
-               })
+               });
             }
          }
          logger.info(`${index + 1}/${blogs.length}`, `Recuperadas ${entries.length} entradas de ${item.title}.`);

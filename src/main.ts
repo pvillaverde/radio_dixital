@@ -19,6 +19,7 @@ logger.info(`
 `);
 let keepRuning = false;
 switch (task) {
+   // One-time tasks
    case "refreshBlogs":
       await refreshBlogs();
       break;
@@ -28,6 +29,7 @@ switch (task) {
    case "refreshYoutube":
       await refreshYoutube();
       break;
+   // Service Tasks
    case "publishTwitter":
       keepRuning = true;
       await publishTwitter();
@@ -44,24 +46,8 @@ switch (task) {
       logger.fatal("Especifica unha subtarefa para executar a RADIO Dixital.");
       break;
 }
+
 if (!keepRuning) {
    connection.end();
    mqttService.end();
 }
-
-// const food = Deno.args[1];
-// console.log(`Hello ${name}, I like ${food}!`);
-
-// import { parseArgs } from "jsr:@std/cli/parse-args";
-
-// const flags = parseArgs(Deno.args, {
-//    boolean: ["help", "color"],
-//    string: ["version"],
-//    default: { color: true },
-//    negatable: ["color"],
-// });
-// console.log("Wants help?", flags.help);
-// console.log("Version:", flags.version);
-// console.log("Wants color?:", flags.color);
-
-// console.log("Other:", flags._);

@@ -2,7 +2,7 @@
 
 [![GitHub license][license-shield]][license-url]
 
-Esta aplicación encárgase de obter a información das canles rexistradas na [Asociación Cultural Obradoiro Dixital Galego](https://obradoirodixitalgalego.gal) e difundir o novo contido que xeran estes proxectos en galego pola rede, a través das canlees da asociación (Twitter, Mastodon e Discord).
+Esta aplicación encárgase de obter a información das canles rexistradas na [Asociación Cultural Obradoiro Dixital Galego](https://obradoirodixitalgalego.gal) e difundir o novo contido que xeran estes proxectos en galego pola rede, a través das canles da asociación (Twitter, Mastodon e Discord).
 
 # 🗂️ Índice
 
@@ -31,9 +31,9 @@ Esta aplicación encárgase de obter a información das canles rexistradas na [A
 - [ ] RefreshTwitch
 - [ ] RefreshTwitchClips
 - [ ] RefreshTwitchStreams
-- [ ] PublishTwitter
-- [ ] PublishMastodon
-- [ ] PublishDiscord
+- [x] PublishTwitter
+- [x] PublishMastodon
+- [x] PublishDiscord
 
 ## 🧩 Requerimentos
 
