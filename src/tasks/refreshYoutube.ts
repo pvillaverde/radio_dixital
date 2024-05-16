@@ -74,7 +74,7 @@ export default async function refreshYoutube() {
          // Rate Limit 1/sec
          await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
-         logger.error(`Erro ao actualizar o blogue ${item.title}`);
+         logger.error(`Erro ao actualizar a canle de YouTube ${item.title}`);
          logger.error(error);
       }
    }

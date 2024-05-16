@@ -65,7 +65,7 @@ export default async function refreshPodcasts() {
          }
          logger.info(`${index + 1}/${podcasts.length}`, `Recuperados ${entries.length} episodios de ${item.title}.`);
       } catch (error) {
-         logger.fatal(`Erro ao actualizar o blogue ${item.title}`);
+         logger.fatal(`Erro ao actualizar o podcast ${item.title}`);
          logger.fatal(error);
       }
    }
