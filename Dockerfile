@@ -8,6 +8,6 @@ WORKDIR /opt/radio_dixital
 #RUN deno cache ./src/deps.ts
 ## Now we copy our App source code, having the dependencies previously cached if possible.
 ADD . /opt/radio_dixital/
-ADD ./src/config_example /opt/radio_dixital/config
+ADD ./src/config_example /opt/radio_dixital/src/config
 RUN deno cache ./src/main.ts
 #ENTRYPOINT /opt/radio_dixital/entrypoint.sh
