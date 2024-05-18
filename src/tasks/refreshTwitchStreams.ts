@@ -32,21 +32,23 @@ export default async function refreshTwitchStreams() {
       } else {
          logger.info(`Actualizando o directo da canle ${stream.user_name} =>  ${stream.game_name}: ${stream.title}`)
       }
-      mqttService.connect();
-      mqttService.on("connect", () => {
-         const message: PubSubMessage = {
-            type: "twitch",
-            title: stream.user_name,
-            mastodon: channel.mastodon,
-            twitter: channel.twitter,
-            entryTitle: `${stream.title} (${stream.game_name})`,
-            entryLink: `https://twitch.tv/${stream.user_login}`,
-            stream: stream,
-            channel: channel,
-            game: game,
-         };
-         logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
-         mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message));
-      });
+      await new Promise<void>((resolve, reject) => {
+         mqttService.connect();
+         mqttService.on("connect", () => {
+            const message: PubSubMessage = {
+               type: "twitch",
+               title: stream.user_name,
+               mastodon: channel.mastodon,
+               twitter: channel.twitter,
+               entryTitle: `${stream.title} (${stream.game_name})`,
+               entryLink: `https://twitch.tv/${stream.user_login}`,
+               stream: stream,
+               channel: channel,
+               game: game,
+            };
+            mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message));
+            resolve();
+         });
+      })
    }
 }
