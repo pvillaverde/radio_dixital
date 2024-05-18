@@ -7,9 +7,9 @@ import { fetchClips, fetchGames } from "../services/twitch.service.ts";
 export default async function refreshTwitchGames() {
    const missingGames = await twitchGameRepository.getMissingGameIds();
    logger.info(`Obtendo a información ${missingGames.length} xogos de Twitch dende a API.`);
-   logger.info(missingGames);
+   logger.debug(missingGames);
    const refreshedGames = await fetchGames(missingGames);
-   logger.info(refreshedGames);
+   logger.debug(refreshedGames);
    // Recuperar os datos dos usuarios dende a API de Twitch
    for (const [index, item] of refreshedGames.entries()) {
       await twitchGameRepository.save(item);
