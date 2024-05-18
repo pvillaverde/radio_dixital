@@ -28,6 +28,21 @@ export default function publishMastodon() {
          const decodedMessage: PubSubMessage = JSON.parse(message.toString());
          logger.debug(decodedMessage);
          if (!mastodonConfig[decodedMessage.type].enable) return;
+         if (decodedMessage.type === "twitch" && decodedMessage.stream) {
+            const streamId = decodedMessage.stream.id;
+            const currentTimestamp = Date.now();
+
+            // Clean old messages
+            cleanOldStreams();
+
+            // Check if the message ID is already processed within the last hour
+            if (streamId in streamTracker) {
+               logger.debug(`Xa se enviou notificación da emisión da canle ${decodedMessage.title} =>  ${decodedMessage.entryTitle}, ignorandoa.`);
+               return;
+            }
+            // Store the message ID with the current timestamp
+            streamTracker[streamId] = currentTimestamp;
+         }
          const messageStatus = mastodonConfig[decodedMessage.type].messageTemplate
             .replace(/{channelName}/g, decodedMessage.title)
             .replace(/{mentionUser}/g, decodedMessage.mastodon ? ` (${decodedMessage.mastodon})` : ``)
@@ -42,4 +57,13 @@ export default function publishMastodon() {
          logger.error(message.toString());
       }
    });
+}
+
+function cleanOldStreams() {
+   const fourHoursAgo = Date.now() - (4 * 3600 * 1000); // 4 hour in milliseconds
+   for (const id in streamTracker) {
+      if (streamTracker[id] < fourHoursAgo) {
+         delete streamTracker[id];
+      }
+   }
 }
