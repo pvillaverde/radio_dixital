@@ -18,8 +18,8 @@ class TwitchRepository implements ITwitchRepository {
    save(channel: TwitchUserData): Promise<ITwitch> {
       return new Promise((resolve, reject) => {
          connection.query(
-            "INSERT INTO twitch_channels (id, login, display_name, type, broadcaster_type, description, profile_image_url, offline_image_url, channel_created_at, enabled) VALUES(?,?,?,?,?,?,?,?,?, true)",
-            [channel.id, channel.login, channel.display_name, channel.type, channel.broadcaster_type, channel.description, channel.profile_image_url, channel.offline_image_url, new Date(channel.created_at)],
+            "INSERT INTO twitch_channels (id, login, display_name, type, broadcaster_type, description, profile_image_url, offline_image_url, channel_created_at, twitter, mastodon, enabled) VALUES(?,?,?,?,?,?,?,?,?,?,?, true)",
+            [channel.id, channel.login, channel.display_name, channel.type, channel.broadcaster_type, channel.description, channel.profile_image_url, channel.offline_image_url, new Date(channel.created_at), channel.twitter, channel.mastodon],
             (err: any, _res: ITwitch | PromiseLike<ITwitch>) => {
                if (err && err.code == "ER_DUP_ENTRY") {
                   this.update(channel)
@@ -40,8 +40,8 @@ class TwitchRepository implements ITwitchRepository {
    update(channel: TwitchUserData): Promise<ITwitch> {
       return new Promise((resolve, reject) => {
          connection.query(
-            "UPDATE twitch_channels SET enabled=true, login=?, display_name=?, type=?, broadcaster_type=?, description=?, profile_image_url=?, offline_image_url=?, channel_created_at=? WHERE id=?",
-            [channel.login, channel.display_name, channel.type, channel.broadcaster_type, channel.description, channel.profile_image_url, channel.offline_image_url, new Date(channel.created_at), channel.id],
+            "UPDATE twitch_channels SET enabled=true, login=?, display_name=?, type=?, broadcaster_type=?, description=?, profile_image_url=?, offline_image_url=?, channel_created_at=?, twitter=?, mastodon=? WHERE id=?",
+            [channel.login, channel.display_name, channel.type, channel.broadcaster_type, channel.description, channel.profile_image_url, channel.offline_image_url, new Date(channel.created_at), channel.twitter, channel.mastodon, channel.id],
             (err: any, _res: ITwitch | PromiseLike<ITwitch>) => {
                if (err) {
                   reject(err);

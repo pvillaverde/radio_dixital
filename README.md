@@ -68,7 +68,7 @@ Na carpeta [config_example](./src/config_example/) están todas as configuració
 - [NPM: Twitter API v2](https://www.npmjs.com/package/twitter-api-v2)
 - [NPM: Masto](https://www.npmjs.com/package/masto)
 - [NPM: Simple Discord WebHook](https://www.npmjs.com/package/simple-discord-webhooks)
-- [Using MySQL in Node.js with TypeScript](https://medium.com/deno-the-complete-reference/deno-nuggets-in-memory-db-session-storage-ed5441a8812d)
+- [Deno nuggets: In-memory DB (session storage)](https://medium.com/deno-the-complete-reference/deno-nuggets-in-memory-db-session-storage-ed5441a8812d)
 - [Node.js Typescript with MySQL example](https://www.bezkoder.com/node-js-typescript-mysql/)
 - [Instalación de Mosquitto (MQTT Broker) en Docker](https://www.manelrodero.com/blog/instalacion-de-mosquitto-mqtt-broker-en-docker)
 

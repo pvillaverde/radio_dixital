@@ -10,6 +10,8 @@ export default interface ITwitch extends RowDataPacket {
    profile_image_url: string;
    offline_image_url: string;
    channel_created_at: Date;
+   twitter?: string;
+   mastodon?: string;
    // Auto filled with Triggers
    created_at?: Date;
    updated_at?: Date;

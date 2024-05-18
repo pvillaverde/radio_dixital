@@ -15,6 +15,12 @@ export default async function refreshTwitchChannels() {
    // Deshabilitar todos os usuarios (serán rehabilitados se están na API da WEB)
    await twitchRepository.disableAll();
    for (const [index, item] of twitchChannelsData.entries()) {
+      // Link social media in the database
+      const apiChannel = twitchChannels.find(c => c.twitch_login == item.login);
+      if (apiChannel) {
+         item.twitter = apiChannel.twitter;
+         item.mastodon = apiChannel.mastodon;
+      }
       const savedChannel = await twitchRepository.save(item);
       // Obter os seguidores e gardalos nas estatísticas
       const followers = await fetchChannelFollowers(item.id);

@@ -152,6 +152,8 @@ CREATE TABLE twitch_channels(
    offline_image_url varchar(255),
    channel_created_at timestamp,
    enabled boolean DEFAULT TRUE,
+   twitter VARCHAR(255),
+   mastodon VARCHAR(255),
    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id)
@@ -182,3 +184,91 @@ CREATE TRIGGER twitch_channel_stats_update
 
 ALTER TABLE twitch_channels_stats
    ADD CONSTRAINT twitch_channels_stats FOREIGN KEY (twitchchannel_id) REFERENCES twitch_channels(id);
+
+CREATE TABLE twitch_clips(
+   id varchar(255) NOT NULL,
+   url varchar(255),
+   embed_url varchar(255),
+   broadcaster_id varchar(255),
+   broadcaster_name varchar(255),
+   creator_id varchar(255),
+   creator_name varchar(255),
+   game_id varchar(255),
+   language VARCHAR(255),
+   title varchar(255),
+   view_count integer,
+   clip_created_at timestamp,
+   thumbnail_url varchar(255),
+   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (clip_id)
+);
+
+DROP TRIGGER twitch_clips_update;
+CREATE TRIGGER twitch_clips_update
+   BEFORE UPDATE ON `twitch_clips`
+   FOR EACH ROW
+   SET NEW.updated_at = NOW(),
+   NEW.created_at = OLD.created_at;
+
+ALTER TABLE twitch_clips
+   ADD CONSTRAINT twitch_clips_channels FOREIGN KEY (broadcaster_id) REFERENCES twitch_channels(id);
+
+CREATE TABLE twitch_streams(
+   id varchar(255) NOT NULL,
+   type VARCHAR(255),
+   user_id varchar(255),
+   user_login varchar(255),
+   user_name varchar(255),
+   game_id varchar(255),
+   game_name varchar(255),
+   title varchar(255),
+   viewer_count integer,
+   started_at timestamp,
+   ended_at timestamp,
+   thumbnail_url varchar(255),
+   language VARCHAR(255),
+   tags varchar(255),
+   is_mature boolean,
+   live_messages text,
+   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (id)
+);
+ALTER TABLE twitch_streams
+   ADD CONSTRAINT twitch_streams_channels FOREIGN KEY (user_id) REFERENCES twitch_channels(id);
+
+
+DROP TRIGGER twitch_streams_update;
+CREATE TRIGGER twitch_streams_update
+   BEFORE UPDATE ON `twitch_streams`
+   FOR EACH ROW
+   SET NEW.updated_at = NOW(),
+   NEW.created_at = OLD.created_at;
+
+CREATE TABLE twitch_streams_views(
+   streamview_id integer NOT NULL AUTO_INCREMENT,
+   view_count integer,
+   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   twitchstream_id varchar(255),
+   PRIMARY KEY (streamview_id)
+);
+ALTER TABLE twitch_streams_views
+   ADD CONSTRAINT twitch_streams_views_streams FOREIGN KEY (twitchstream_id) REFERENCES twitch_streams(id);
+
+DROP TRIGGER twitch_streams_views_update;
+CREATE TRIGGER twitch_streams_views_update
+   BEFORE UPDATE ON `twitch_streams_views`
+   FOR EACH ROW
+   SET NEW.updated_at = NOW(),
+   NEW.created_at = OLD.created_at;
+
+CREATE TABLE twitch_games(
+   id varchar(255) NOT NULL,
+   name varchar(255),
+   box_art_url varchar(255),
+   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (id)
+);

@@ -1,8 +1,6 @@
-import twitchRepository from "../database/repositories/twitch.repository.ts";
-import twitchClipRepository from "../database/repositories/twitchClip.repository.ts";
 import twitchGameRepository from "../database/repositories/twitchGame.repository.ts";
 import logger from "../services/logger.service.ts";
-import { fetchClips, fetchGames } from "../services/twitch.service.ts";
+import { fetchGames } from "../services/twitch.service.ts";
 
 export default async function refreshTwitchGames() {
    const missingGames = await twitchGameRepository.getMissingGameIds();

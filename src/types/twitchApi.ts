@@ -8,7 +8,8 @@ export interface TwitchUserData {
    profile_image_url: string;
    offline_image_url: string;
    created_at: Date;
-   view_count: number;
+   twitter?: string;
+   mastodon?: string;
 }
 
 export interface TwitchStreamData {
