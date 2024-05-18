@@ -11,6 +11,7 @@ import publishMastodon from "./tasks/publishMastodon.ts";
 import publishTwitter from "./tasks/publishTwitter.ts";
 import refreshTwitchClips from "./tasks/refreshTwitchClips.ts";
 import refreshTwitchGames from "./tasks/refreshTwitchGames.ts";
+import refreshTwitchStreams from "./tasks/refreshTwitchStreams.ts";
 
 const task = Deno.args[0];
 logger.info(`
@@ -43,6 +44,9 @@ switch (task) {
       break;
    case "refreshTwitchGames":
       await refreshTwitchGames();
+      break;
+   case "refreshTwitchStreams":
+      await refreshTwitchStreams();
       break;
    // Service Tasks
    case "publishTwitter":
