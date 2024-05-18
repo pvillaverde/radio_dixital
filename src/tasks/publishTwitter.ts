@@ -4,15 +4,22 @@ import logger from "../services/logger.service.ts";
 import mqttService from "../services/mqtt.service.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
 import mqttConfig from "../config/mqtt.config.ts";
+import StreamTracker from "../types/streamTracker.ts";
+
+const streamTracker: StreamTracker = {};
+let subscribed = false;
 
 export default function publishTwitter() {
    mqttService.connect();
+   mqttService.on("reconnect", () => logger.info("Reconnected to MQTT Broker"));
    mqttService.on("connect", () => {
+      if (subscribed) return;
       mqttService.subscribe(mqttConfig.MQTT_TOPIC, (err) => {
          if (err) {
             logger.error(err.toString());
          } else {
-            logger.info("Listening MQTT Topic");
+            subscribed = true;
+            logger.info(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
          }
       });
    });
