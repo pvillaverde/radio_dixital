@@ -19,22 +19,6 @@ Esta aplicación encárgase de obter a información das canles rexistradas na [A
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
-## 📝 Folla de ruta
-
-- [x] Feito en DENO.
-- [x] Acoplamento feble. Cada compoñente executarase pola súa conta e pasaralle os mensaxes a outro mediante unha cola MQTT.
-- [x] Xerar unha táboa co histórico de capítulos dos podcasts e dos vídeos de Youtube. Permitiría ver unha evolución do contido da canle, xerando as nosas propias estatísticas, así como facer resumos mensuais por exemplo.
-- [x] RefreshBlogs
-- [x] RefreshPodcast
-- [x] RefreshYoutube
-- [x] RefreshYoutubeStats
-- [ ] RefreshTwitch
-- [ ] RefreshTwitchClips
-- [ ] RefreshTwitchStreams
-- [x] PublishTwitter
-- [x] PublishMastodon
-- [x] PublishDiscord
-
 ## 🧩 Requerimentos
 
 - Unha base de datos MySQL para almacenar toda a información dos proxectos e as súas entradas.
@@ -49,6 +33,8 @@ Podes atopar un Helm para desplegalo en Kubernetes no [repositorio de Helm Chart
 Na carpeta [config_example](./src/config_example/) están todas as configuracións que hai que especificar para que funcione correctamente. Entre elas están as distintas credenciais das redes sociais, da base de datos, do broker MQTT ou das APIs de Google ou Twitch.
 
 ## 🧙 Cómo se usa?
+
+Pódense usar as tarefas individuais ou o HelmRelease de exemplo nas instrucións de Instalación. Básicamente hai tres tarefas que se encargan de publicar no Discord, Twitter(X) e Mastodon. O resto encárganse de recuperar a información e estatísticas dende os feeds dos blogues, podcasts, youtube e dende as APIs de Youtube e Twitch.
 
 ## 🎯 Créditos
 
