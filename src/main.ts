@@ -4,6 +4,7 @@ import connection from "./database/index.ts";
 import refreshPodcasts from "./tasks/refreshPodcasts.ts";
 import refreshYoutube from "./tasks/refreshYoutube.ts";
 import refreshYoutubeStats from "./tasks/refreshYoutubeStats.ts";
+import refreshTwitchChannels from "./tasks/refreshTwitchChannels.ts";
 import mqttService from "./services/mqtt.service.ts";
 import publishDiscord from "./tasks/publishDiscord.ts";
 import publishMastodon from "./tasks/publishMastodon.ts";
@@ -31,6 +32,9 @@ switch (task) {
       break;
    case "refreshYoutubeStats":
       await refreshYoutubeStats();
+      break;
+   case "refreshTwitchChannels":
+      await refreshTwitchChannels();
       break;
    // Service Tasks
    case "publishTwitter":

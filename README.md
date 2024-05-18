@@ -27,7 +27,7 @@ Esta aplicación encárgase de obter a información das canles rexistradas na [A
 - [x] RefreshBlogs
 - [x] RefreshPodcast
 - [x] RefreshYoutube
-- [ ] RefreshYoutubeStats
+- [x] RefreshYoutubeStats
 - [ ] RefreshTwitch
 - [ ] RefreshTwitchClips
 - [ ] RefreshTwitchStreams
@@ -37,16 +37,23 @@ Esta aplicación encárgase de obter a información das canles rexistradas na [A
 
 ## 🧩 Requerimentos
 
-## 🧑‍🍳 Configuración
+- Unha base de datos MySQL para almacenar toda a información dos proxectos e as súas entradas.
+- Un broker MQTT, por exemplo [Mosquitto](https://github.com/eclipse/mosquitto/).
 
 ## 🏗️ Instalación
+
+Podes atopar un Helm para desplegalo en Kubernetes no [repositorio de Helm Charts](https://github.com/pvillaverde/helm-charts/tree/main/charts/radio-dixital).
+
+## 🧑‍🍳 Configuración
+
+Na carpeta [config_example](./src/config_example/) están todas as configuracións que hai que especificar para que funcione correctamente. Entre elas están as distintas credenciais das redes sociais, da base de datos, do broker MQTT ou das APIs de Google ou Twitch.
 
 ## 🧙 Cómo se usa?
 
 ## 🎯 Créditos
 
 - [Asociación Cultural Obradoiro Dixital Galego](https://obradoirodixitalgalego.gal)
-- [Óscar Otero]() - Polo seu apoio e contribución para esnaquizar o antigo bot de cara a facelo Serverless.
+- [Óscar Otero](https://github.com/olcortesb) - Polo seu apoio e contribución para esnaquizar o antigo bot de cara a facelo Serverless.
 
 🙏 Grazas!
 

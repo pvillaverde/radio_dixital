@@ -7,7 +7,7 @@
       "refreshTwitter": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitter",
       "refreshYoutube": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshYoutube",
       "refreshYoutubeStats": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshYoutubeStats",
-      "refreshTwitch": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitch",
+      "refreshTwitchChannels": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchChannels",
       "refreshTwitchGames": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchGames",
       "refreshTwitchClips": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchClips",
       "refreshTwitchStreams": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchStreams",

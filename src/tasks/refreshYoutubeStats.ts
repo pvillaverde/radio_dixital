@@ -1,7 +1,7 @@
 import googleConfig from "../config/google.config.ts";
 import youtubeRepository from "../database/repositories/youtube.repository.ts";
 import logger from "../services/logger.service.ts";
-import { fetchJsonData, getFeedData } from "../services/utils.service.ts";
+import { fetchJsonData } from "../services/utils.service.ts";
 import { YoutubeData } from "../types/api.ts";
 import YoutubeStat from "../types/youtubeStats.ts";
 
