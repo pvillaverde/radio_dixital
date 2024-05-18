@@ -4,9 +4,9 @@ import logger from "../services/logger.service.ts";
 import mqttService from "../services/mqtt.service.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
 import mqttConfig from "../config/mqtt.config.ts";
-import StreamTracker from "../types/streamTracker.ts";
+import { StreamTimeTracker } from "../types/streamTrackers.ts";
 
-const streamTracker: StreamTracker = {};
+const streamTimeTracker: StreamTimeTracker = {};
 let subscribed = false;
 
 export default function publishMastodon() {
@@ -36,12 +36,12 @@ export default function publishMastodon() {
             cleanOldStreams();
 
             // Check if the message ID is already processed within the last hour
-            if (streamId in streamTracker) {
+            if (streamId in streamTimeTracker) {
                logger.debug(`Xa se enviou notificación da emisión da canle ${decodedMessage.title} =>  ${decodedMessage.entryTitle}, ignorandoa.`);
                return;
             }
             // Store the message ID with the current timestamp
-            streamTracker[streamId] = currentTimestamp;
+            streamTimeTracker[streamId] = currentTimestamp;
          }
          const messageStatus = mastodonConfig[decodedMessage.type].messageTemplate
             .replace(/{channelName}/g, decodedMessage.title)
@@ -61,9 +61,9 @@ export default function publishMastodon() {
 
 function cleanOldStreams() {
    const fourHoursAgo = Date.now() - (4 * 3600 * 1000); // 4 hour in milliseconds
-   for (const id in streamTracker) {
-      if (streamTracker[id] < fourHoursAgo) {
-         delete streamTracker[id];
+   for (const id in streamTimeTracker) {
+      if (streamTimeTracker[id] < fourHoursAgo) {
+         delete streamTimeTracker[id];
       }
    }
 }
