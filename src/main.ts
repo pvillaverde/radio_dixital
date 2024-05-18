@@ -9,6 +9,7 @@ import mqttService from "./services/mqtt.service.ts";
 import publishDiscord from "./tasks/publishDiscord.ts";
 import publishMastodon from "./tasks/publishMastodon.ts";
 import publishTwitter from "./tasks/publishTwitter.ts";
+import refreshTwitchClips from "./tasks/refreshTwitchClips.ts";
 
 const task = Deno.args[0];
 logger.info(`
@@ -35,6 +36,9 @@ switch (task) {
       break;
    case "refreshTwitchChannels":
       await refreshTwitchChannels();
+      break;
+   case "refreshTwitchClips":
+      await refreshTwitchClips();
       break;
    // Service Tasks
    case "publishTwitter":
