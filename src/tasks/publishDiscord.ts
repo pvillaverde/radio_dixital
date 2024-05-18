@@ -4,9 +4,14 @@ import logger from "../services/logger.service.ts";
 import mqttService from "../services/mqtt.service.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
 import mqttConfig from "../config/mqtt.config.ts";
-import StreamTracker from "../types/streamTracker.ts";
+import ITwitchStream from "../database/models/twitchStream.model.ts";
+import ITwitch from "../database/models/twitch.model.ts";
+import ITwitchGame from "../database/models/twitchGame.model.ts";
+import DiscordEmbed from "../types/discordEmbed.ts";
+import humanizeDuration from "npm:humanize-duration";
+import { StreamLiveTracker } from "../types/streamTrackers.ts";
 
-const streamTracker: StreamTracker = {};
+const streamLiveTracker: StreamLiveTracker = {};
 let subscribed = false;
 
 export default function publishDiscord() {
@@ -28,66 +33,123 @@ export default function publishDiscord() {
          const decodedMessage: PubSubMessage = JSON.parse(message.toString());
          logger.debug(decodedMessage);
          if (!discordConfig[decodedMessage.type].enable) return;
-         const messageStatus = discordConfig[decodedMessage.type].messageTemplate
-            .replace(/{channelName}/g, decodedMessage.title)
-            .replace(/{mentionUser}/g, ``)
-            .replace(/{title}/g, decodedMessage.entryTitle)
-            .replace(/{url}/g, decodedMessage.entryLink);
-
-         const webhook = new Webhook(discordConfig[decodedMessage.type].webhook);
-         const result = await webhook.send(messageStatus);
-         logger.info(messageStatus, result.id);
+         if (decodedMessage.type === "twitch") {
+            sendEmbedMessage(decodedMessage);
+         } else {
+            sendSimpleMessage(decodedMessage);
+         }
       } catch (error) {
          logger.error(error);
          logger.error(message.toString());
       }
    });
+}
 
-   // // const hook = new Webhook("YOUR WEBHOOK URL");
+/**
+ * sendEmbedMessage - Sends a simple discord message for new content
+ * @param {PubSubMessage} decodedMessage - the message decoded from mqtt
+ * @returns {void}
+ */
+async function sendSimpleMessage(decodedMessage: PubSubMessage) {
+   const messageStatus = discordConfig[decodedMessage.type].messageTemplate
+      .replace(/{channelName}/g, decodedMessage.title)
+      .replace(/{mentionUser}/g, ``)
+      .replace(/{title}/g, decodedMessage.entryTitle)
+      .replace(/{url}/g, decodedMessage.entryLink);
 
-   // // const IMAGE_URL = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
-   // // hook.setUsername('Discord Webhook Node Name');
-   // // hook.setAvatar(IMAGE_URL);
+   const webhook = new Webhook(discordConfig[decodedMessage.type].webhook);
+   const result = await webhook.send(messageStatus);
+   logger.info(messageStatus, result.id);
+}
 
-   // // hook.send("Hello there!");
-   // const embed = {};
+/**
+ * sendEmbedMessage - Sends an embed message for live Twitch stream
+ * @param {PubSubMessage} decodedMessage - the message decoded from mqtt
+ * @returns {void}
+ */
+async function sendEmbedMessage(decodedMessage: PubSubMessage) {
+   if (!decodedMessage.stream || !decodedMessage.channel || !decodedMessage.game) return;
+   const embed = createLiveEmbedForStream(decodedMessage.stream, decodedMessage.channel, decodedMessage.game);
+   const streamId = decodedMessage.stream.id;
+   const webhook = new Webhook(discordConfig[decodedMessage.type].webhook);
+   if (streamId in streamLiveTracker) {
+      const message = webhook.resolveMessageID(streamLiveTracker[streamId]);
+      const result = await message.edit("", [embed]);
+      if (decodedMessage.stream.type === "offline") {
+         logger.info(`A canle ${decodedMessage.stream.user_name} comezou a emitir ${decodedMessage.stream.game_name}: ${decodedMessage.stream.title}`, result.id)
+         delete streamLiveTracker[streamId];
+      } else {
+         logger.info(`Actualizando o directo da canle ${decodedMessage.stream.user_name} =>  ${decodedMessage.stream.game_name}: ${decodedMessage.stream.title}`, result.id)
+      }
+   } else {
+      logger.info(`A canle ${decodedMessage.stream.user_name} comezou a emitir ${decodedMessage.stream.game_name}: ${decodedMessage.stream.title}`)
+      const result = await webhook.send("", [embed]);
+      streamLiveTracker[streamId] = result.id;
+   }
+}
 
-   // hook.send("This message should get edited (hopefully) soon").then(async (result) => {
-   //    setTimeout(async () => {
-   //       await result.edit("And should get deleted (hopefully) soon");
-   //       console.log("Successfully edited send message!");
-   //    }, 3000);
-   //    setTimeout(async () => {
-   //       await result.delete();
-   //       console.log("Successfully deleted send message!");
-   //    }, 6000);
-   // });
-
-   // const message = hook.resolveMessageID("820311219432194068");
-   // message.edit("Hello there!").then(() => console.log("Edited message"));
-
-   // // const embed = new MessageBuilder()
-   // //    .setTitle('My title here')
-   // //    .setAuthor('Author here', 'https://cdn.discordapp.com/embed/avatars/0.png', 'https://www.google.com')
-   // //    .setUrl('https://www.google.com')
-   // //    .addField('First field', 'this is inline', true)
-   // //    .addField('Second field', 'this is not inline')
-   // //    .setColor(0x9146ff)
-   // //    .setThumbnail('https://cdn.discordapp.com/embed/avatars/0.png')
-   // //    .setDescription('Oh look a description :)')
-   // //    .setImage('https://cdn.discordapp.com/embed/avatars/0.png')
-   // //    .setFooter('Hey its a footer', 'https://cdn.discordapp.com/embed/avatars/0.png')
-   // //    .setTimestamp();
-
-   // // hook.send(embed).catch(console.error);
-
-   // // window.sessionStorage.setItem('K1', 'V1');
-   // // window.sessionStorage.setItem('K2', JSON.stringify({a: 1, b: '2'}));window.sessionStorage.getItem('K1'); //V1
-   // // window.sessionStorage.getItem('K2')); //{"a":1,"b":"2"}
-   // // window.sessionStorage.getItem('K3'); //null
-   // // window.sessionStorage.length; //2window.sessionStorage.removeItem('K1');
-   // // window.sessionStorage.removeItem('K3');window.sessionStorage.getItem('K1'); //null
-   // // window.sessionStorage.getItem('K2'); //{"a":1,"b":"2"}window.sessionStorage.length; //1
-   // // window.sessionStorage.clear();
-   // // window.sessionStorage.length; //0
+/**
+ * createLiveEmbedForStream - creates a DiscordEmbed object for a live Twitch stream
+ * @param {ITwitchStream} stream - the Twitch stream object
+ * @param {ITwitch} channel - the Twitch channel object
+ * @param {ITwitchGame} game - the Twitch game object
+ * @returns {DiscordEmbed} liveEmbed - the DiscordEmbed object for the live stream
+ */
+export function createLiveEmbedForStream(stream: ITwitchStream, channel: ITwitch, game: ITwitchGame) {
+   const isLive = stream.type === "live";
+   const liveEmbed: DiscordEmbed = {
+      title: stream.title as string,
+      url: `https://twitch.tv/${(stream.user_login as string || stream.user_name as string).toLowerCase()}`,
+      fields: [],
+   }
+   if (game && game.box_art_url) {
+      liveEmbed.thumbnail = { url: (game.box_art_url as string).replace('{width}', '288').replace('{height}', '384') };
+   }
+   // Add game
+   switch (stream.game_name) {
+      case 'Just Chatting':
+         liveEmbed.fields?.push({ name: "A que andamos?", value: "De Parola™", inline: false })
+         break;
+      case 'Talk Shows & Podcasts':
+         liveEmbed.fields?.push({ name: "A que andamos?", value: "Podcasts e De Parola™", inline: false })
+         break;
+      default:
+         liveEmbed.fields?.push({ name: "A que andamos?", value: stream.game_name as string, inline: false })
+         break;
+   }
+   // Etiquetas
+   if (stream.tags) {
+      liveEmbed.fields?.push({ name: "Etiquetas", value: stream.tags as string, inline: false })
+   }
+   if (isLive) {
+      // Se o stream está en directo
+      liveEmbed.color = 0x9146ff;
+      liveEmbed.author = { name: `${stream.user_name} está agora en directo!`, icon_url: channel.profile_image_url as string }
+      liveEmbed.description = `Axiña, [preme para velo en twitch](https://twitch.tv/${(stream.user_login as string || stream.user_name as string).toLowerCase()})`;
+      if (stream.thumbnail_url) {
+         const thumbnailBuster = (Date.now() / 1000).toFixed(0);
+         liveEmbed.image = {
+            url: (stream.thumbnail_url as string).replace('{width}', '1280').replace('{height}', '720') + `?t=${thumbnailBuster}`,
+         }
+      }
+      liveEmbed.fields?.push({ name: "Estado", value: `:red_circle: Emitindo con ${stream.viewer_count} espectadores`, inline: true })
+   } else {
+      // Se xa rematou o directo.
+      liveEmbed.color = 0x808080;
+      liveEmbed.author = { name: `${stream.user_name} estivo en directo!**`, icon_url: channel.profile_image_url as string }
+      liveEmbed.fields?.push({ name: "Estado", value: `:white_circle: A emisión xa rematou.`, inline: true })
+   }
+   // Add uptime
+   const now = new Date(stream.ended_at as Date).getTime();
+   const startedAt = new Date(stream.started_at as Date).getTime();
+   const streamDuration = humanizeDuration((now - startedAt), {
+      delimiter: ', ',
+      largest: 2,
+      round: true,
+      units: ['y', 'mo', 'w', 'd', 'h', 'm'],
+      language: 'gl',
+      fallbacks: ['gl', 'es'],
+   });
+   liveEmbed.fields?.push({ name: "Tempo en emisión", value: streamDuration, inline: true });
+   return liveEmbed;
 }

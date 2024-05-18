@@ -5,6 +5,7 @@
       "jsr:@std/assert@^0.225.1": "jsr:@std/assert@0.225.1",
       "jsr:@std/cli": "jsr:@std/cli@0.224.1",
       "npm:discord-webhook-node": "npm:discord-webhook-node@1.1.8",
+      "npm:humanize-duration": "npm:humanize-duration@3.31.0",
       "npm:masto@6.7.7": "npm:masto@6.7.7_ws@8.17.0",
       "npm:mqtt": "npm:mqtt@5.5.5",
       "npm:mysql2": "npm:mysql2@3.9.7",
@@ -227,6 +228,10 @@
       },
       "help-me@5.0.0": {
         "integrity": "sha512-7xgomUX6ADmcYzFik0HzAxh/73YlKR9bmFzf51CZwR+b6YtzU2m0u49hQCqV6SvlqIqsaxovfwdvbnsw3b/zpg==",
+        "dependencies": {}
+      },
+      "humanize-duration@3.31.0": {
+        "integrity": "sha512-fRrehgBG26NNZysRlTq1S+HPtDpp3u+Jzdc/d5A4cEzOD86YLAkDaJyJg8krSdCi7CJ+s7ht3fwRj8Dl+Btd0w==",
         "dependencies": {}
       },
       "iconv-lite@0.6.3": {
