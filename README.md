@@ -14,6 +14,19 @@ RADIOD scrapes content from RSS feeds from Blogs, Podcasts, Youtube Videos and a
 
 ## 🗂️ Table of Contents
 
+- [🌈 Features](#-features)
+  - [🐛 Known Bugs](#-known-bugs)
+  - [🛣️ Roadmap](#️-roadmap)
+- [🚀 Getting Started](#-getting-started)
+  - [🧩 Requirements](#-requirements)
+  - [☸️ Running it on Kubernetes](#️-running-it-on-kubernetes)
+  - [🐳 Running in Docker](#-running-in-docker)
+  - [🧱 Running locally](#-running-locally)
+- [🙋Support &amp; Contributing](#support--contributing)
+- [🏆 Credits &amp; Acknowledgements 🙏](#-credits--acknowledgements-)
+- [⚖️ License](#️-license)
+- [🔗 Reference links and bibliography 📚](#-reference-links-and-bibliography-)
+
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
 ## 🌈 Features
@@ -31,13 +44,13 @@ RADIOD scrapes content from RSS feeds from Blogs, Podcasts, Youtube Videos and a
 
 ### 🐛 Known Bugs
 
-- [] When the MySQL database is restarted, `mysql2` library is getting ACCESS DENIED errors. The workarround its to login manually through the CLI and after that it can login without issues. Might be realated to `caching_sha2_password` auth plugin.
-- [] Sometimes posts get promoted more than one time, something is duplicating messages in the MQTT Subscriber. QoS is zero for both publish and subscribe. Can't reproduce it so far, might be related to K8s networking.
+- [ ] When the MySQL database is restarted, `mysql2` library is getting ACCESS DENIED errors. The workarround its to login manually through the CLI and after that it can login without issues. Might be realated to `caching_sha2_password` auth plugin.
+- [ ] Sometimes posts get promoted more than one time, something is duplicating messages in the MQTT Subscriber. QoS is zero for both publish and subscribe. Can't reproduce it so far, might be related to K8s networking.
 
 ### 🛣️ Roadmap
 
-- [] Promote new Twitch Clips or Clips with more than a threshold number of views in the social networks.
-- [] Use KNative/OpenFunction to only launch publishers when there are messages, instead of having them pernanently listening the MQTT topics.
+- [ ] Promote new Twitch Clips or Clips with more than a threshold number of views in the social networks.
+- [ ] Use KNative/OpenFunction to only launch publishers when there are messages, instead of having them pernanently listening the MQTT topics.
 
 **[⬆️ Back to Top](#radiod)**
 
@@ -139,7 +152,7 @@ If you want to add any missing feature or report a bug, you [can request ir or r
 
 [![GitHub license][license-shield]][license-url] - Distributed under the GNU GPL-v3 License. See [LICENSE][license-url] on for more information.
 
-# 🔗 Reference links and bibliography 📚
+## 🔗 Reference links and bibliography 📚
 
 - [NPM: mysql2](https://www.npmjs.com/package/mysql2)
 - [NPM: MQTT](https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#typescript)
