@@ -12,26 +12,23 @@ import humanizeDuration from "npm:humanize-duration";
 import { StreamLiveTracker } from "../types/streamTrackers.ts";
 
 const streamLiveTracker: StreamLiveTracker = {};
-let subscribed = false;
 
 export default function publishDiscord() {
    mqttService.connect();
-   mqttService.on("reconnect", () => logger.info("Reconnected to MQTT Broker"));
+   mqttService.on("reconnect", () => logger.debug("Reconnected to MQTT Broker"));
    mqttService.on("connect", () => {
-      if (subscribed) return;
       mqttService.subscribe(mqttConfig.MQTT_TOPIC, { qos: 2 }, (err) => {
          if (err) {
             logger.error(err.toString());
          } else {
-            subscribed = true;
-            logger.info(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
+            logger.debug(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
          }
       });
    });
-   mqttService.on("message", async (_topic, message) => {
+   mqttService.on("message", async (_topic, message, packet) => {
       try {
          const decodedMessage: PubSubMessage = JSON.parse(message.toString());
-         logger.debug(decodedMessage);
+         logger.debug(decodedMessage, packet);
          if (!discordConfig[decodedMessage.type].enable) return;
          if (decodedMessage.type === "twitch") {
             sendEmbedMessage(decodedMessage);

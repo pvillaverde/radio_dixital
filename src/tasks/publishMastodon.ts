@@ -7,26 +7,23 @@ import mqttConfig from "../config/mqtt.config.ts";
 import { StreamTimeTracker } from "../types/streamTrackers.ts";
 
 const streamTimeTracker: StreamTimeTracker = {};
-let subscribed = false;
 
 export default function publishMastodon() {
    mqttService.connect();
-   mqttService.on("reconnect", () => logger.info("Reconnected to MQTT Broker"));
+   mqttService.on("reconnect", () => logger.debug("Reconnected to MQTT Broker"));
    mqttService.on("connect", () => {
-      if (subscribed) return;
       mqttService.subscribe(mqttConfig.MQTT_TOPIC, { qos: 2 }, (err) => {
          if (err) {
             logger.error(err.toString());
          } else {
-            subscribed = true;
-            logger.info(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
+            logger.debug(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
          }
       });
    });
-   mqttService.on("message", async (_topic, message) => {
+   mqttService.on("message", async (_topic, message, packet) => {
       try {
          const decodedMessage: PubSubMessage = JSON.parse(message.toString());
-         logger.debug(decodedMessage);
+         logger.debug(decodedMessage, packet);
          if (!mastodonConfig[decodedMessage.type].enable) return;
          if (decodedMessage.type === "twitch" && decodedMessage.stream) {
             const streamId = decodedMessage.stream.id;
