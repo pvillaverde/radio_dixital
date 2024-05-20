@@ -1,6 +1,8 @@
 FROM denoland/deno:alpine-1.42.4
 LABEL MAINTAINER="Pablo Villaverde <https://github.com/pvillaverde>"
 
+ENV TZ Europe/Madrid
+RUN apk --no-cache add tzdata
 # build app directory and cache dependencies
 WORKDIR /opt/radio_dixital
 #COPY ./src/deps.ts /opt/radio_dixital/src/
