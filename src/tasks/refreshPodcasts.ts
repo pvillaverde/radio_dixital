@@ -60,7 +60,7 @@ export default async function refreshPodcasts() {
                         entryLink: entry.link,
                      };
                      logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
-                     mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message));
+                     mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
                      resolve();
                   });
                })

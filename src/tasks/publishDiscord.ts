@@ -19,7 +19,7 @@ export default function publishDiscord() {
    mqttService.on("reconnect", () => logger.info("Reconnected to MQTT Broker"));
    mqttService.on("connect", () => {
       if (subscribed) return;
-      mqttService.subscribe(mqttConfig.MQTT_TOPIC, (err) => {
+      mqttService.subscribe(mqttConfig.MQTT_TOPIC, { qos: 2 }, (err) => {
          if (err) {
             logger.error(err.toString());
          } else {
