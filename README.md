@@ -12,6 +12,8 @@ RADIOD scrapes content from RSS feeds from Blogs, Podcasts, Youtube Videos and a
 > [!NOTE]
 > 💡 The name "RADIOD" is a retroacronym in galician of "Rede Automatizada de Difusión en Internet do Obradoiro Dixital", which would be translated as "Obradoiro Digital Internet Promotion Automated Network".
 
+<!--  https://github.com/orgs/community/discussions/16925 -->
+
 ## 🗂️ Table of Contents
 
 - [🌈 Features](#-features)
