@@ -34,21 +34,19 @@ export default async function refreshTwitchStreams() {
       }
       await new Promise<void>((resolve, reject) => {
          mqttService.connect();
-         mqttService.on("connect", () => {
-            const message: PubSubMessage = {
-               type: "twitch",
-               title: stream.user_name,
-               mastodon: channel.mastodon,
-               twitter: channel.twitter,
-               entryTitle: `${stream.title} (${stream.game_name})`,
-               entryLink: `https://twitch.tv/${stream.user_login}`,
-               stream: stream,
-               channel: channel,
-               game: game,
-            };
-            mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
-            resolve();
-         });
+         mqttService.on("connect", () => resolve());
       })
+      const message: PubSubMessage = {
+         type: "twitch",
+         title: stream.user_name,
+         mastodon: channel.mastodon,
+         twitter: channel.twitter,
+         entryTitle: `${stream.title} (${stream.game_name})`,
+         entryLink: `https://twitch.tv/${stream.user_login}`,
+         stream: stream,
+         channel: channel,
+         game: game,
+      };
+      mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
    }
 }

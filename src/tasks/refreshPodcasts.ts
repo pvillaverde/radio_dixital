@@ -50,20 +50,18 @@ export default async function refreshPodcasts() {
                await entryRepository.save(entry);
                await new Promise<void>((resolve, reject) => {
                   mqttService.connect();
-                  mqttService.on("connect", () => {
-                     const message: PubSubMessage = {
-                        type: "podcast",
-                        title: item.title,
-                        mastodon: item.mastodon,
-                        twitter: item.twitter,
-                        entryTitle: entry.title,
-                        entryLink: entry.link,
-                     };
-                     logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
-                     mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
-                     resolve();
-                  });
+                  mqttService.on("connect", () => resolve());
                })
+               const message: PubSubMessage = {
+                  type: "podcast",
+                  title: item.title,
+                  mastodon: item.mastodon,
+                  twitter: item.twitter,
+                  entryTitle: entry.title,
+                  entryLink: entry.link,
+               };
+               logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
+               mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
             }
          }
          logger.info(`${index + 1}/${podcasts.length}`, `Recuperados ${entries.length} episodios de ${item.title}.`);
