@@ -1,6 +1,6 @@
 {
    "tasks": {
-      "dev": "deno run --allow-sys --allow-read --allow-env --allow-net --watch src/dev/pubsub.ts",
+      "dev": "deno run --allow-sys --allow-read --allow-env --allow-net --watch src/dev/mysql.ts",
       "main": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts",
       "refreshBlogs": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshBlogs",
       "refreshPodcasts": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshPodcasts",
