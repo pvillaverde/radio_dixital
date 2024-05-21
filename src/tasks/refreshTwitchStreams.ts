@@ -6,7 +6,6 @@ import logger from "../services/logger.service.ts";
 import mqttService from "../services/mqtt.service.ts";
 import { fetchStreams } from "../services/twitch.service.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
-import connection from "../database/index.ts";
 
 export default async function refreshTwitchStreams() {
    const twitchChannels = await twitchRepository.retrieveAll({ enabled: true });
@@ -47,5 +46,5 @@ export default async function refreshTwitchStreams() {
       mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
    }
    mqttService.end();
-   connection.end();
+   Deno.exit(0);
 }

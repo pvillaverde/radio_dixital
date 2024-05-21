@@ -6,7 +6,6 @@ import { PodcastData } from "../types/api.ts";
 import mqttService from "../services/mqtt.service.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
 import mqttConfig from "../config/mqtt.config.ts";
-import connection from "../database/index.ts";
 
 export default async function refreshPodcasts() {
    const API_URL = "https://obradoirodixitalgalego.gal/api/podcast.json";
@@ -69,5 +68,5 @@ export default async function refreshPodcasts() {
    }
    logger.info(`Finalizado o refresco de ${podcasts.length} podcasts.`);
    mqttService.end();
-   connection.end();
+   Deno.exit(0);
 }

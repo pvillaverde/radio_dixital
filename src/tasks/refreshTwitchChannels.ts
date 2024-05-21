@@ -4,7 +4,6 @@ import { fetchChannelFollowers, fetchUsers } from "../services/twitch.service.ts
 import { fetchJsonData } from "../services/utils.service.ts";
 import { TwitchData } from "../types/api.ts";
 import { TwitchUserData } from "../types/twitchApi.ts";
-import connection from "../database/index.ts";
 
 export default async function refreshTwitchChannels() {
    const API_URL = "https://obradoirodixitalgalego.gal/api/twitch.json";
@@ -29,5 +28,5 @@ export default async function refreshTwitchChannels() {
       logger.info(`${index + 1}/${twitchChannelsData.length}`, `Actualizadas estatísticas de ${item.display_name} con ${followers} seguidores.`);
    }
    logger.info(`Finalizado o refresco de ${twitchChannels.length} canles de Twitch.`);
-   connection.end();
+   Deno.exit(0);
 }

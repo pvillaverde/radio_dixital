@@ -6,7 +6,6 @@ import mqttService from "../services/mqtt.service.ts";
 import { fetchJsonData, getFeedData } from "../services/utils.service.ts";
 import { YoutubeData } from "../types/api.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
-import connection from "../database/index.ts";
 
 export default async function refreshYoutube() {
    const API_URL = "https://obradoirodixitalgalego.gal/api/youtube.json";
@@ -78,5 +77,5 @@ export default async function refreshYoutube() {
    }
    logger.info(`Finalizado o refresco de ${youtubeChannels.length} canles de YouTube.`);
    mqttService.end();
-   connection.end();
+   Deno.exit(0);
 }

@@ -6,7 +6,6 @@ import mqttService from "../services/mqtt.service.ts";
 import { fetchJsonData, getFeedData } from "../services/utils.service.ts";
 import { BlogData } from "../types/api.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
-import connection from "../database/index.ts";
 
 export default async function refreshBlogs() {
    const API_URL = "https://obradoirodixitalgalego.gal/api/blog.json";
@@ -69,5 +68,5 @@ export default async function refreshBlogs() {
    }
    logger.info(`Finalizado o refresco de ${blogs.length} blogues.`);
    mqttService.end();
-   connection.end();
+   Deno.exit(0);
 }
