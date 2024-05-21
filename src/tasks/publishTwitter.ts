@@ -9,16 +9,12 @@ import { StreamTimeTracker } from "../types/streamTrackers.ts";
 const streamTimeTracker: StreamTimeTracker = {};
 
 export default function publishTwitter() {
-   mqttService.connect();
-   mqttService.on("reconnect", () => logger.debug("Reconnected to MQTT Broker"));
-   mqttService.on("connect", () => {
-      mqttService.subscribe(mqttConfig.MQTT_TOPIC, { qos: 2 }, (err) => {
-         if (err) {
-            logger.error(err.toString());
-         } else {
-            logger.debug(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
-         }
-      });
+   mqttService.subscribe(mqttConfig.MQTT_TOPIC, { qos: 2 }, (err) => {
+      if (err) {
+         logger.error(err.toString());
+      } else {
+         logger.debug(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
+      }
    });
    mqttService.on("message", async (_topic, message, packet) => {
       try {

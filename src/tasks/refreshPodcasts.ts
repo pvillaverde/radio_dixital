@@ -6,6 +6,7 @@ import { PodcastData } from "../types/api.ts";
 import mqttService from "../services/mqtt.service.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
 import mqttConfig from "../config/mqtt.config.ts";
+import connection from "../database/index.ts";
 
 export default async function refreshPodcasts() {
    const API_URL = "https://obradoirodixitalgalego.gal/api/podcast.json";
@@ -48,10 +49,6 @@ export default async function refreshPodcasts() {
                logger.info(`Novo episodio de ${item.title}: ${entry.title} - ${entry.link}`);
                logger.debug(entry);
                await entryRepository.save(entry);
-               await new Promise<void>((resolve, reject) => {
-                  mqttService.connect();
-                  mqttService.on("connect", () => resolve());
-               })
                const message: PubSubMessage = {
                   type: "podcast",
                   title: item.title,
@@ -71,4 +68,6 @@ export default async function refreshPodcasts() {
       }
    }
    logger.info(`Finalizado o refresco de ${podcasts.length} podcasts.`);
+   mqttService.end();
+   connection.end();
 }

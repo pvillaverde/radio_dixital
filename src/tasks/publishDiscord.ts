@@ -14,16 +14,12 @@ import { StreamLiveTracker } from "../types/streamTrackers.ts";
 const streamLiveTracker: StreamLiveTracker = {};
 
 export default function publishDiscord() {
-   mqttService.connect();
-   mqttService.on("reconnect", () => logger.debug("Reconnected to MQTT Broker"));
-   mqttService.on("connect", () => {
-      mqttService.subscribe(mqttConfig.MQTT_TOPIC, { qos: 2 }, (err) => {
-         if (err) {
-            logger.error(err.toString());
-         } else {
-            logger.debug(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
-         }
-      });
+   mqttService.subscribe(mqttConfig.MQTT_TOPIC, { qos: 2 }, (err) => {
+      if (err) {
+         logger.error(err.toString());
+      } else {
+         logger.debug(`Subscribed to "${mqttConfig.MQTT_TOPIC}" MQTT Topic`);
+      }
    });
    mqttService.on("message", async (_topic, message, packet) => {
       try {

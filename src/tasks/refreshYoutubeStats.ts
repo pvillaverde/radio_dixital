@@ -4,6 +4,7 @@ import logger from "../services/logger.service.ts";
 import { fetchJsonData } from "../services/utils.service.ts";
 import { YoutubeData } from "../types/api.ts";
 import YoutubeStat from "../types/youtubeStats.ts";
+import connection from "../database/index.ts";
 
 export default async function refreshYoutubeStats() {
    const API_URL = "https://obradoirodixitalgalego.gal/api/youtube.json";
@@ -31,4 +32,5 @@ export default async function refreshYoutubeStats() {
       }
    }
    logger.info(`Gardadas as estatísticas de ${youtubeChannels.length} canles de YouTube.`);
+   connection.end();
 }

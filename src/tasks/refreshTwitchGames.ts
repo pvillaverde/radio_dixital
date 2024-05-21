@@ -1,6 +1,7 @@
 import twitchGameRepository from "../database/repositories/twitchGame.repository.ts";
 import logger from "../services/logger.service.ts";
 import { fetchGames } from "../services/twitch.service.ts";
+import connection from "../database/index.ts";
 
 export default async function refreshTwitchGames() {
    const missingGames = await twitchGameRepository.getMissingGameIds();
@@ -14,4 +15,5 @@ export default async function refreshTwitchGames() {
       logger.info(`${index + 1}/${refreshedGames.length}`, `Refrescado a información de ${item.id}: ${item.name}.`);
    }
    logger.info(`Finalizado o refresco de ${missingGames.length} xogos.`);
+   connection.end();
 }

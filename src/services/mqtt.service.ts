@@ -1,7 +1,11 @@
-import { connect } from "npm:mqtt";
+import { connectAsync } from "npm:mqtt";
 import mqttConfig from "../config/mqtt.config.ts";
-export default connect(`mqtt://${mqttConfig.MQTT_HOST}`, {
+import logger from "./logger.service.ts";
+const mqttService = await connectAsync(`mqtt://${mqttConfig.MQTT_HOST}`, {
    username: mqttConfig.MQTT_USER,
    password: mqttConfig.MQTT_PASS,
-   manualConnect: true,
 });
+
+mqttService.on("reconnect", () => logger.debug("Reconnected to MQTT Broker"));
+
+export default mqttService;

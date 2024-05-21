@@ -6,6 +6,7 @@ import mqttService from "../services/mqtt.service.ts";
 import { fetchJsonData, getFeedData } from "../services/utils.service.ts";
 import { YoutubeData } from "../types/api.ts";
 import PubSubMessage from "../types/pubsub.message.ts";
+import connection from "../database/index.ts";
 
 export default async function refreshYoutube() {
    const API_URL = "https://obradoirodixitalgalego.gal/api/youtube.json";
@@ -52,22 +53,16 @@ export default async function refreshYoutube() {
                logger.info(`Novo vídeo de ${item.title}: ${entry.title} - ${entry.link}`);
                logger.debug(entry);
                await entryRepository.save(entry);
-               await new Promise<void>((resolve, reject) => {
-                  mqttService.connect();
-                  mqttService.on("connect", () => {
-                     const message: PubSubMessage = {
-                        type: "youtube",
-                        title: item.title,
-                        mastodon: item.mastodon,
-                        twitter: item.twitter,
-                        entryTitle: entry.title,
-                        entryLink: entry.link,
-                     };
-                     logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
-                     mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
-                     resolve();
-                  });
-               })
+               const message: PubSubMessage = {
+                  type: "youtube",
+                  title: item.title,
+                  mastodon: item.mastodon,
+                  twitter: item.twitter,
+                  entryTitle: entry.title,
+                  entryLink: entry.link,
+               };
+               logger.debug(`Publishing to MQTT topic "${mqttConfig.MQTT_TOPIC}"`, JSON.stringify(message));
+               mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
             }
          }
          logger.info(
@@ -82,4 +77,6 @@ export default async function refreshYoutube() {
       }
    }
    logger.info(`Finalizado o refresco de ${youtubeChannels.length} canles de YouTube.`);
+   mqttService.end();
+   connection.end();
 }
