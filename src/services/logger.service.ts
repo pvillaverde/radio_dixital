@@ -21,4 +21,5 @@ function getLogLevelFromEnv(): LogLevel {
 export default new Logger({
    minLevel: getLogLevelFromEnv(),
    type: "pretty",
+   prettyLogTimeZone: 'local',
 });
