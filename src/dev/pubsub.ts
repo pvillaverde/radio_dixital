@@ -32,7 +32,7 @@ async function sendMessage() {
    const message = {
       id: id
    }
-   mqttService.publish("test", JSON.stringify(message), { qos: 2 });
+   await mqttService.publishAsync("test", JSON.stringify(message), { qos: 2 });
    /* logger.info(`Publishing to MQTT topic "test"`, JSON.stringify(message)); */
    sendMessage();
 }

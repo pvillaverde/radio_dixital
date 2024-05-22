@@ -43,7 +43,7 @@ export default async function refreshTwitchStreams() {
          channel: channel,
          game: game,
       };
-      mqttService.publish(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
+      await mqttService.publishAsync(mqttConfig.MQTT_TOPIC, JSON.stringify(message), { qos: 2 });
    }
    mqttService.end();
    Deno.exit(0);
