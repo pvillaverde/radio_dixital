@@ -8,7 +8,7 @@
       "npm:humanize-duration": "npm:humanize-duration@3.31.0",
       "npm:masto@6.7.7": "npm:masto@6.7.7_ws@8.17.0",
       "npm:mqtt": "npm:mqtt@5.5.5",
-      "npm:mysql2": "npm:mysql2@3.9.7",
+      "npm:mysql2": "npm:mysql2@3.9.8",
       "npm:pino": "npm:pino@9.0.0",
       "npm:simple-discord-webhooks": "npm:simple-discord-webhooks@2.1.0",
       "npm:tslog": "npm:tslog@4.9.2",
@@ -341,8 +341,8 @@
         "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==",
         "dependencies": {}
       },
-      "mysql2@3.9.7": {
-        "integrity": "sha512-KnJT8vYRcNAZv73uf9zpXqNbvBG7DJrs+1nACsjZP1HMJ1TgXEy8wnNilXAn/5i57JizXKtrUtwDB7HxT9DDpw==",
+      "mysql2@3.9.8": {
+        "integrity": "sha512-+5JKNjPuks1FNMoy9TYpl77f+5frbTklz7eb3XDwbpsERRLEeXiW2PDEkakYF50UuKU2qwfGnyXpKYvukv8mGA==",
         "dependencies": {
           "denque": "denque@2.1.0",
           "generate-function": "generate-function@2.3.1",

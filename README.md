@@ -46,8 +46,7 @@ RADIOD scrapes content from RSS feeds from Blogs, Podcasts, Youtube Videos and a
 
 ### 🐛 Known Bugs
 
-- [ ] When the MySQL database is restarted, `mysql2` library is getting ACCESS DENIED errors. The workarround its to login manually through the CLI and after that it can login without issues. Might be realated to `caching_sha2_password` auth plugin.
-- [ ] Sometimes posts get promoted more than one time, something is duplicating messages in the MQTT Subscriber. QoS is zero for both publish and subscribe. Can't reproduce it so far, might be related to K8s networking.
+- So far, all fixed! 🥳
 
 ### 🛣️ Roadmap
 

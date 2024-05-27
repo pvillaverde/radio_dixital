@@ -1,6 +1,12 @@
 import mysql from "npm:mysql2";
-import dbConfig from "../config/db.config.ts";
 import logger from "../services/logger.service.ts";
+// docker run -it -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=test -d mysql:8
+const dbConfig = {
+   DB_HOST: "localhost",
+   DB_USER: "root",
+   DB_PASS: "test",
+   DB_NAME: "mysql",
+};
 
 const connection = mysql.createConnection({
    host: dbConfig.DB_HOST,
