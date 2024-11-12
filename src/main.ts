@@ -7,6 +7,7 @@ import refreshTwitchChannels from "./tasks/refreshTwitchChannels.ts";
 import publishDiscord from "./tasks/publishDiscord.ts";
 import publishMastodon from "./tasks/publishMastodon.ts";
 import publishTwitter from "./tasks/publishTwitter.ts";
+import publishBluesky from "./tasks/publishBluesky.ts";
 import refreshTwitchClips from "./tasks/refreshTwitchClips.ts";
 import refreshTwitchGames from "./tasks/refreshTwitchGames.ts";
 import refreshTwitchStreams from "./tasks/refreshTwitchStreams.ts";
@@ -48,6 +49,9 @@ switch (task) {
    // Service Tasks
    case "publishTwitter":
       await publishTwitter();
+      break;
+   case "publishBluesky":
+      await publishBluesky();
       break;
    case "publishMastodon":
       await publishMastodon();

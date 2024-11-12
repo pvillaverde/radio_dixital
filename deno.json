@@ -13,6 +13,7 @@
       "refreshTwitchStreams": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts refreshTwitchStreams",
       "publishDiscord": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts publishDiscord",
       "publishTwitter": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts publishTwitter",
+      "publishBluesky": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts publishBluesky",
       "publishMastodon": "deno run --allow-sys --allow-read --allow-env --allow-net src/main.ts publishMastodon"
    },
    "fmt": {

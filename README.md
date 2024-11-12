@@ -7,7 +7,7 @@
 
 ![Live Notification example on Discord](https://pbs.twimg.com/media/ErJW_5RXEAUfApb?format=png&name=900x900)
 
-RADIOD scrapes content from RSS feeds from Blogs, Podcasts, Youtube Videos and also from Youtube & Twitch APIs from the Galician Content Creators registered in the [Asociación Cultural Obradoiro Dixital Galego](https://obradoirodixitalgalego.gal). This content is then used to promote it through the organization social networks (Twitter, Mastodon & Discord) and also store it in a database to later consume it from internal dashboards.
+RADIOD scrapes content from RSS feeds from Blogs, Podcasts, Youtube Videos and also from Youtube & Twitch APIs from the Galician Content Creators registered in the [Asociación Cultural Obradoiro Dixital Galego](https://obradoirodixitalgalego.gal). This content is then used to promote it through the organization social networks (Twitter, Bluesky, Mastodon & Discord) and also store it in a database to later consume it from internal dashboards.
 
 > [!NOTE]
 > 💡 The name "RADIOD" is a retroacronym in galician of "Rede Automatizada de Difusión en Internet do Obradoiro Dixital", which would be translated as "Obradoiro Digital Internet Promotion Automated Network".
@@ -42,7 +42,7 @@ RADIOD scrapes content from RSS feeds from Blogs, Podcasts, Youtube Videos and a
 - 📊 `refreshYoutubeStats`: Gathers stats like the channel views and subscribers from the Youtube API and stores them in the database for future analysis.
 - 📺 `refreshTwitch`, `refreshTwitchClips`, `refreshTwitchGames`: These tasks store information related to Twitch Channels, its "games" and clips, and help towards having all the required information in the `refreshStreams`.
 - 🚦 `refreshStreams`: Intended to be used every minute, it checks the active streams of the monitored channels and handles new and offline streams. It sends all the information required to make content rich notifications.
-- 🌎 `publishTwitter`, `publishMastodon`, `publishDiscord`: Subscribe the MQTT topic and publish status update on each social network for each new entry. Twitch Streams are also updated in Discord with a thumbnail of the stream while Live.
+- 🌎 `publishTwitter`,`publishBluesky`, `publishMastodon`, `publishDiscord`: Subscribe the MQTT topic and publish status update on each social network for each new entry. Twitch Streams are also updated in Discord with a thumbnail of the stream while Live.
 
 ### 🐛 Known Bugs
 
@@ -109,6 +109,10 @@ export default {
 
 Follow the documentation on the [masto library](https://www.npmjs.com/package/masto) for information on how to setup your API credentials. Then, configure [./src/config/mastodon.config.ts](./src/config_example/mastodon.config.ts) following the example. You can also customize the message template there.
 
+#### Bluesky Credentials
+
+[As of november 2024](https://docs.bsky.app/docs/get-started), Bluesky uses the user credentials to login and post status updates.
+
 #### Discord Webhook
 
 Follow the [official discord documentation](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) on how to create a webhook. Then configure [./src/config/discord.config.ts](./src/config_example/discord.config.ts) following the example. You can also customize the message template there.
@@ -136,7 +140,7 @@ You will need to have Deno installed in your machine, then you can run `deno tas
 
 ## 🙋Support & Contributing
 
-If you want to add any missing feature or report a bug, you [can request ir or report it here][issues-url]. Also if you are want and know how to do it, go ahead! That's what make the open source community shines, by allowing us to grow and learn from each other creating amazing tools! Any contribution you make is **greatly appreciated**.
+If you want to add any missing feature or report a bug, you [can request ir or report it here][issues-url]. Also if you want and know how to do it, go ahead! That's what make the open source community shines, by allowing us to grow and learn from each other creating amazing tools! Any contribution you make is **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -158,6 +162,7 @@ If you want to add any missing feature or report a bug, you [can request ir or r
 - [NPM: mysql2](https://www.npmjs.com/package/mysql2)
 - [NPM: MQTT](https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#typescript)
 - [NPM: Twitter API v2](https://www.npmjs.com/package/twitter-api-v2)
+- [BlueSky Api docs](https://docs.bsky.app/docs/get-started)
 - [NPM: Masto](https://www.npmjs.com/package/masto)
 - [NPM: Simple Discord WebHook](https://www.npmjs.com/package/simple-discord-webhooks)
 - [Deno nuggets: In-memory DB (session storage)](https://medium.com/deno-the-complete-reference/deno-nuggets-in-memory-db-session-storage-ed5441a8812d)
