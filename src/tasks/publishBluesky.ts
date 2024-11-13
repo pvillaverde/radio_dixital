@@ -1,4 +1,4 @@
-import { AtpAgent } from 'npm:@atproto/api'
+import { AtpAgent, RichText } from 'npm:@atproto/api'
 import blueskyconfig from "../config/bluesky.config.ts";
 import logger from "../services/logger.service.ts";
 import mqttService from "../services/mqtt.service.ts";
@@ -38,7 +38,7 @@ export default function publishBluesky() {
          }
          const messageStatus = blueskyconfig[decodedMessage.type].messageTemplate
             .replace(/{channelName}/g, decodedMessage.title)
-            .replace(/{mentionUser}/g, decodedMessage.twitter ? ` (${decodedMessage.twitter})` : ``)
+            .replace(/{mentionUser}/g, decodedMessage.bluesky ? ` (${decodedMessage.bluesky})` : ``)
             .replace(/{title}/g, decodedMessage.entryTitle)
             .replace(/{url}/g, decodedMessage.entryLink);
 
@@ -49,10 +49,17 @@ export default function publishBluesky() {
             identifier: blueskyconfig[decodedMessage.type].identifier,
             password: blueskyconfig[decodedMessage.type].password
          })
-         const status = await agent.post({
+         const rt = new RichText({
             text: messageStatus,
-            createdAt: new Date().toISOString()
          })
+         await rt.detectFacets(agent) // automatically detects mentions and links
+         const postRecord = {
+            $type: 'app.bsky.feed.post',
+            text: rt.text,
+            facets: rt.facets,
+            createdAt: new Date().toISOString(),
+         }
+         const status = await agent.post(postRecord)
          logger.info(messageStatus, status);
       } catch (error) {
          logger.error(error);

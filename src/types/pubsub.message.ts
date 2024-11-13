@@ -8,6 +8,7 @@ export default interface PubSubMessage {
    entryTitle: string;
    entryLink: string;
    twitter?: string;
+   bluesky?: string;
    mastodon?: string;
    stream?: ITwitchStream,
    game?: ITwitchGame,
