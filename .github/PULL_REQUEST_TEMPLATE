@@ -1,0 +1,52 @@
+## 📥 Merge Request Title
+
+## 📝 Summary / Motivation:  
+<!--
+Briefly summarize the purpose of the changes in this merge request.
+* For bug fixes:
+    * What problem does this solve?
+    * If there is already an issue, link the issue, otherwise describe the problem here.
+* For features or gameplay changes:
+    * What was the motivation to develop this feature?
+    * Does this address any problem with the gameplay or interface?
+    * Which group of players do you think would enjoy this feature?
+-->
+
+## 🗒️ Description:  
+<!--
+Describe here shortly
+* For bug fixes:
+    * How is the problem solved?
+* For features or changes:
+    * What does this feature do?
+    * How does it improve/solve the situation described under 'motivation'.
+-->
+## ⚠️ Limitations
+
+<!--
+Describe here
+* Is the problem solved in all scenarios?
+* Is this feature complete? Are there things that could be added in the future?
+* Are there things that are intentionally left out?
+* Do you know of a bug or corner case that does not work?
+-->
+
+## 🧪 Testing Instructions:  
+
+<!--
+Describe how this was tested or how reviewers can test it.
+-->
+
+## 🔗 References:  
+<!--
+Please include cross links to any resources that are relevant to this MR.
+
+This will give reviewers and future readers helpful context to give an efficient review of the changes introduced.
+-->
+
+## ✅ Checklist for review:
+- [ ] Code follows the repository’s style guidelines
+- [ ] Commits follow the [Conventional Commits scheme](https://www.conventionalcommits.org/en/v1.0.0-beta.4/).
+- [ ] Documentation has been updated if needed
+- [ ] Tests have been made as necessary
+- [ ] For [breaking changes](https://handbook.gitlab.com/handbook/product/gitlab-the-product/#breaking-changes), make sure at least one commit has the `breaking change` keyword.
