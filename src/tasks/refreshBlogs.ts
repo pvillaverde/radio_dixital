@@ -19,7 +19,7 @@ export default async function refreshBlogs() {
          const feedData = await getFeedData(item.rss, "rss");
          // deno-lint-ignore no-explicit-any
          let entries: any[] = [];
-         if (Array.isArray(feedData.item)) {
+         if (feedData.item && Array.isArray(feedData.item)) {
             // deno-lint-ignore no-explicit-any
             entries = feedData.item.map((i: any) => {
                return {
@@ -27,6 +27,17 @@ export default async function refreshBlogs() {
                   date: new Date(i.pubDate),
                   title: i.title,
                   link: i.link || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
+                  blog_id: item.id,
+               };
+            });
+         } else if (feedData.entry && Array.isArray(feedData.entry)) {
+            // deno-lint-ignore no-explicit-any
+            entries = feedData.entry.map((i: any) => {
+               return {
+                  type: "blog",
+                  date: new Date(i.published),
+                  title: i.title['#text'],
+                  link: i.link['@href'] || `https://obradoirodixitalgalego.gal/comunidade/proxectos/${item.id}/`,
                   blog_id: item.id,
                };
             });

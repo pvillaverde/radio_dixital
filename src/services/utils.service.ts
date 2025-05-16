@@ -14,7 +14,7 @@ export async function getFeedData(rssURL: string, feedType: "rss" | "youtube"): 
       const json = parse(xml) as any;
       if (feedType == "rss" && json.rss && json.rss.channel) {
          return json.rss.channel;
-      } else if (feedType == "youtube" && json.feed) {
+      } else if (json.feed) {
          return json.feed;
       } else {
          throw json;
