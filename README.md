@@ -151,7 +151,7 @@ If you want to add any missing feature or report a bug, you [can request ir or r
 ## 🏆 Credits & Acknowledgements 🙏
 
 - [Asociación Cultural Obradoiro Dixital Galego](https://obradoirodixitalgalego.gal)
-- [Óscar Otero](https://github.com/olcortesb) - For its support to evolve the old code into loosely tied tasks in its path to Serverless.
+- [Óscar Cortés](https://github.com/olcortesb) - For its support to evolve the old code into loosely tied tasks in its path to Serverless.
 
 ## ⚖️ License
 
